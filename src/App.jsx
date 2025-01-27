@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import { Login } from "./Components/Authorization/Login";
 import { Register } from "./Components/Authorization/Register";
-import { Authorized } from "./Views/Authorized"
-import { ApplicationViews } from "./Views/ApplicationViews"
+import { Authorized } from "./Views/Authorized";
+import { ApplicationViews } from "./Views/ApplicationViews";
 
 function App() {
   return (
