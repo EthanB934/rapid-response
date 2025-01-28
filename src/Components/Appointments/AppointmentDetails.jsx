@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getAppointmentsByAppointmentId } from "../../Services/AppointmentServices";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  getAppointmentsByAppointmentId,
+  removeAppointment,
+} from "../../Services/AppointmentServices";
 import { getVisitorByUserId } from "../../Services/UserServices";
 
 export const AppointmentDetails = ({ currentUser }) => {
   const [appointment, setAppointment] = useState({});
   const [visitor, setVisitor] = useState({});
   const { appointmentId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAppointmentsByAppointmentId(appointmentId).then((appointmentArray) => {
@@ -22,6 +26,11 @@ export const AppointmentDetails = ({ currentUser }) => {
     });
   }, [currentUser]);
 
+  const handleRemoveAppointment = (event) => {
+    event.preventDefault();
+    const appointmentIdAsInteger = parseInt(appointmentId);
+    removeAppointment(appointmentIdAsInteger).then(navigate("/appointments"));
+  };
   return (
     <>
       {appointment.practitioner ? (
@@ -41,10 +50,20 @@ export const AppointmentDetails = ({ currentUser }) => {
           <label>
             You have scheduled this appointment for {appointment.scheduledDate}
           </label>{" "}
-          {appointment.status ? (
-            <span>This appointment has been completed. We hope the visit went well!</span>
+          {appointment.completed ? (
+            <>
+              <span>
+                This appointment has been completed. We hope the visit went
+                well!
+              </span>
+              <button value={appointmentId} onClick={handleRemoveAppointment}>
+                Remove
+              </button>
+            </>
           ) : (
-            <span>This appointment is still pending. We hope to see you soon!</span>
+            <span>
+              This appointment is still pending. We hope to see you soon!
+            </span>
           )}
         </>
       ) : (
