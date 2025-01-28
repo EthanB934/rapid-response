@@ -56,14 +56,19 @@ export const AppointmentDetails = ({ currentUser }) => {
                 This appointment has been completed. We hope the visit went
                 well!
               </span>
-              <button value={appointmentId} onClick={handleRemoveAppointment}>
+              <button onClick={handleRemoveAppointment}>
                 Remove
               </button>
             </>
           ) : (
+            <>
             <span>
               This appointment is still pending. We hope to see you soon!
             </span>
+            <button onClick={handleRemoveAppointment}>
+                Cancel
+              </button>
+            </>
           )}
         </>
       ) : (
