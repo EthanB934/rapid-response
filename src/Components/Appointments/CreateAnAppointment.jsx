@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getVisitorByUserId } from "../../Services/UserServices";
 import { getAllPractitioners } from "../../Services/PractitionerServices";
-import { scheduleAppointment } from "../../Services/AppointmentServices";
+import { scheduleAppointment, updateAppointmentDetails } from "../../Services/AppointmentServices";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export const CreateAnAppointment = ({ currentUser }) => {
@@ -62,6 +62,20 @@ export const CreateAnAppointment = ({ currentUser }) => {
       window.alert(`Please ensure that all form fields have been filled out.`);
     }
   };
+
+  const handleUpdateAppointmentDetails = (event) => {
+    event.preventDefault()
+    const updatedAppointmentForm = {
+      id: location.state.appointment.id,
+      reason: reason,
+      scheduledDate: scheduleDate,
+      visitorId: visitor.id,
+      practitionerId: chosenPractitioner,
+      completed: appointmentCompleted,
+    };
+    updateAppointmentDetails(updatedAppointmentForm)
+    .then(navigate("/appointments"))
+  }
   return (
     <form>
       {visitor ? (
@@ -109,7 +123,11 @@ export const CreateAnAppointment = ({ currentUser }) => {
           onChange={handleScheduleDate}
         />
       </fieldset>
-      <button onClick={handleScheduling}>Schedule Appointment</button>
+      {location.state.type === "edit" ? (
+        <button onClick={handleUpdateAppointmentDetails}>Update Appointment Details</button>
+      ) : (
+        <button onClick={handleScheduling}>Schedule Appointment</button>
+      )}
     </form>
   );
 };
