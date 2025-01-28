@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getVisitorByUserId } from "../../Services/UserServices";
 import { getAllPractitioners } from "../../Services/PractitionerServices";
 import { scheduleAppointment } from "../../Services/AppointmentServices";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const CreateAnAppointment = ({ currentUser }) => {
   const [visitor, setVisitor] = useState({});
@@ -12,13 +12,16 @@ export const CreateAnAppointment = ({ currentUser }) => {
   const [chosenPractitioner, setChosenPractitioner] = useState(-1);
   const [appointmentCompleted, setAppointmentCompleted] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (location.state) {
       console.log(location.state.appointment);
-      setReason(location.state.appointment.reason)
-      setScheduleDate(location.state.appointment.scheduledDate)
-      setChosenPractitioner(parseInt(location.state.appointment.practitionerId));
+      setReason(location.state.appointment.reason);
+      setScheduleDate(location.state.appointment.scheduledDate);
+      setChosenPractitioner(
+        parseInt(location.state.appointment.practitionerId)
+      );
     }
   }, [location]);
 
@@ -54,7 +57,7 @@ export const CreateAnAppointment = ({ currentUser }) => {
         practitionerId: chosenPractitioner,
         completed: appointmentCompleted,
       };
-      scheduleAppointment(appointmentForm);
+      scheduleAppointment(appointmentForm).then(navigate("/appointments"));
     } else {
       window.alert(`Please ensure that all form fields have been filled out.`);
     }
@@ -78,7 +81,10 @@ export const CreateAnAppointment = ({ currentUser }) => {
       )}
       <fieldset>
         <label>Your appointment will be with: </label>
-        <select value={chosenPractitioner} onChange={handlePractitionerSelection}>
+        <select
+          value={chosenPractitioner}
+          onChange={handlePractitionerSelection}
+        >
           <option value="-1">Choose a practitioner...</option>
           {practitioners.map((practitioner) => {
             return (
@@ -97,7 +103,11 @@ export const CreateAnAppointment = ({ currentUser }) => {
       </fieldset>
       <fieldset>
         <label>For when would you like to schedule the appointment?</label>
-        <input defaultValue={scheduleDate} type="datetime-local" onChange={handleScheduleDate} />
+        <input
+          defaultValue={scheduleDate}
+          type="datetime-local"
+          onChange={handleScheduleDate}
+        />
       </fieldset>
       <button onClick={handleScheduling}>Schedule Appointment</button>
     </form>
