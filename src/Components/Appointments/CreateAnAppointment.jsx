@@ -18,7 +18,7 @@ export const CreateAnAppointment = ({ currentUser }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (location.state.type === "edit") {
+    if (location.state?.type === "edit") {
       console.log(location.state.appointment);
       setReason(location.state.appointment.reason);
       setScheduleDate(location.state.appointment.scheduledDate);
@@ -26,7 +26,7 @@ export const CreateAnAppointment = ({ currentUser }) => {
         parseInt(location.state.appointment.practitionerId)
       );
     }
-    if (location.state.type === "create") {
+    else if (location.state?.type === "create") {
       setChosenPractitioner(
         parseInt(location.state.practitionerId)
       );
