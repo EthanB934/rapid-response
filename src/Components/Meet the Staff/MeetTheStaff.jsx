@@ -17,7 +17,7 @@ export const MeetTheStaff = () => {
       {practitioners.map((practitioner) => {
         return (
           <>
-            <Link to={`/practitioner/${practitioner.id}`} key={practitioner.id}>
+            <Link to={`/meetthestaff/${practitioner.id}`} key={practitioner.id}>
               {practitioner.fullName}
             </Link>
             {practitioner.practice.map((practice) => {

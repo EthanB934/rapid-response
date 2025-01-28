@@ -37,6 +37,7 @@ export const VisitorViews = ({ currentUser }) => {
         </Route>
         <Route path="meetthestaff">
           <Route index element={<MeetTheStaff />} />
+          <Route path=":practitionerId" element={<>This is where the details of the practitioner will be displayed</>} />
         </Route>
       </Route>
     </Routes>
