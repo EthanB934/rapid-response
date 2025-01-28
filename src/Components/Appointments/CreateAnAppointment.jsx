@@ -39,7 +39,7 @@ export const CreateAnAppointment = ({ currentUser }) => {
         reason: reason,
         scheduledDate: scheduleDate,
         visitorId: visitor.id,
-        patientId: chosenPractitioner,
+        practitionerId: chosenPractitioner,
         completed: appointmentCompleted,
       };
       scheduleAppointment(appointmentForm);
