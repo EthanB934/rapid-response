@@ -11,6 +11,7 @@ import { getPractitionerByUserId } from "../../Services/PractitionerServices";
 export const MyAppointments = ({ currentUser }) => {
   const [appointments, setAppointments] = useState([]);
   const [visitor, setVisitor] = useState({});
+  const [appointmentStatus, setAppointmentStatus] = useState(false);
 
   useEffect(() => {
     if (!currentUser.isStaff) {
@@ -47,6 +48,12 @@ export const MyAppointments = ({ currentUser }) => {
     const appointmentId = parseInt(event.target.value);
     removeAppointment(appointmentId).then(getAndSetAppointments);
   };
+
+  const handleAppointmentCompletion = (event) => {
+    console.log(parseInt(event.target.value))
+    //Zzz
+  };
+
   return (
     <>
       {appointments ? (
@@ -73,6 +80,18 @@ export const MyAppointments = ({ currentUser }) => {
                 )}
                 {!currentUser.isStaff && appointment.completed === false ? (
                   <i className="fa-solid fa-x"></i>
+                ) : (
+                  " "
+                )}
+                {currentUser.isStaff ? (
+                  <div>
+                    <p>Complete?</p>
+                    <input
+                      type="checkbox"
+                      value={appointment.id}
+                      onChange={handleAppointmentCompletion}
+                    />
+                  </div>
                 ) : (
                   " "
                 )}
