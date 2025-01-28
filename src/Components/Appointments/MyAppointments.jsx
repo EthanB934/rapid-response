@@ -1,25 +1,40 @@
 import { useEffect, useState } from "react";
 import {
+  getAppointmentsByPractitionerId,
   getAppointmentsByVisitorId,
   removeAppointment,
 } from "../../Services/AppointmentServices";
 import { Link } from "react-router-dom";
 import { getVisitorByUserId } from "../../Services/UserServices";
+import { getPractitionerByUserId } from "../../Services/PractitionerServices";
 
 export const MyAppointments = ({ currentUser }) => {
   const [appointments, setAppointments] = useState([]);
   const [visitor, setVisitor] = useState({});
 
   useEffect(() => {
-    getVisitorByUserId(currentUser.id).then((responseArray) => {
-      const visitorObject = responseArray[0];
-      setVisitor(visitorObject);
-    });
+    if (!currentUser.isStaff) {
+      getVisitorByUserId(currentUser.id).then((responseArray) => {
+        const visitorObject = responseArray[0];
+        setVisitor(visitorObject);
+      });
+    }
+    if (currentUser.isStaff) {
+      getPractitionerByUserId(currentUser.id).then((responseArray) => {
+        const visitorObject = responseArray[0];
+        setVisitor(visitorObject);
+      });
+    }
   }, [currentUser]);
 
   const getAndSetAppointments = () => {
-    if (visitor) {
+    if (!currentUser.isStaff) {
       getAppointmentsByVisitorId(visitor?.id).then((responseArray) => {
+        setAppointments(responseArray);
+      });
+    }
+    if (currentUser.isStaff) {
+      getAppointmentsByPractitionerId(visitor?.id).then((responseArray) => {
         setAppointments(responseArray);
       });
     }
@@ -43,7 +58,7 @@ export const MyAppointments = ({ currentUser }) => {
                   {appointment.reason}
                 </Link>
                 {appointment.scheduledDate}
-                {appointment.completed === true ? (
+                {!currentUser.isStaff && appointment.completed === true ? (
                   <>
                     <button
                       value={appointment.id}

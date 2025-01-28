@@ -12,6 +12,11 @@ export const getAppointmentsByVisitorId = async (visitorId) => {
     `http://localhost:8088/appointments?visitorId=${visitorId}`
   ).then((res) => res.json());
 };
+export const getAppointmentsByPractitionerId = async (practitionerId) => {
+  return await fetch(
+    `http://localhost:8088/appointments?practitionerId=${practitionerId}`
+  ).then((res) => res.json());
+};
 export const getAppointmentsByAppointmentId = async (appointmentId) => {
   return await fetch(
     `http://localhost:8088/appointments?id=${appointmentId}&_expand=practitioner`
