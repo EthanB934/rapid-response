@@ -9,7 +9,7 @@ export const ApplicationViews = () => {
     const localRapidResponseUser = JSON.parse(localUser);
     setCurrentUser(localRapidResponseUser);
   }, []);
-
+  
   return (
     <>
       {currentUser.isStaff ? (
