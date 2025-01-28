@@ -33,9 +33,11 @@ export const AppointmentDetails = ({ currentUser }) => {
   };
 
   const handleUpdateAppointment = (event) => {
-    event.preventDefault()
-    navigate(`/appointments/${appointmentId}/edit`, { state: {type: "edit", appointment: appointment}})
-  }
+    event.preventDefault();
+    navigate(`/appointments/${appointmentId}/edit`, {
+      state: { type: "edit", appointment: appointment },
+    });
+  };
   return (
     <>
       {appointment.practitioner ? (
@@ -52,30 +54,28 @@ export const AppointmentDetails = ({ currentUser }) => {
             . He has {appointment.practitioner.experience} years of experience
             as a doctor.
           </p>
-          <label>
-            You have scheduled this appointment for {appointment.scheduledDate}
-          </label>{" "}
           {appointment.completed ? (
             <>
+              <label>
+                This appointment was marked as completed on{" "}
+                {appointment.scheduledDate}{" "}
+              </label>
               <span>
                 This appointment has been completed. We hope the visit went
                 well!
               </span>
-              <button onClick={handleRemoveAppointment}>
-                Remove
-              </button>
+              <button onClick={handleRemoveAppointment}>Remove</button>
             </>
           ) : (
             <>
-            <span>
-              This appointment is still pending. We hope to see you soon!
-            </span>
-            <button onClick={handleRemoveAppointment}>
-                Cancel
-              </button>
-              <button onClick={handleUpdateAppointment}>
-                Update
-              </button>
+              <label>
+                This appointment is scheduled for {appointment.scheduledDate}
+              </label>{" "}
+              <span>
+                This appointment is still pending. We hope to see you soon!
+              </span>
+              <button onClick={handleRemoveAppointment}>Cancel</button>
+              <button onClick={handleUpdateAppointment}>Update</button>
             </>
           )}
         </>
