@@ -2,14 +2,26 @@ import { useEffect, useState } from "react";
 import { getVisitorByUserId } from "../../Services/UserServices";
 import { getAllPractitioners } from "../../Services/PractitionerServices";
 import { scheduleAppointment } from "../../Services/AppointmentServices";
+import { useLocation } from "react-router-dom";
 
 export const CreateAnAppointment = ({ currentUser }) => {
   const [visitor, setVisitor] = useState({});
   const [reason, setReason] = useState("");
   const [scheduleDate, setScheduleDate] = useState("");
   const [practitioners, setAllPractitioners] = useState([]);
-  const [chosenPractitioner, setChosenPractitioner] = useState(0);
+  const [chosenPractitioner, setChosenPractitioner] = useState(-1);
   const [appointmentCompleted, setAppointmentCompleted] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state) {
+      console.log(location.state.appointment);
+      setReason(location.state.appointment.reason)
+      setScheduleDate(location.state.appointment.scheduledDate)
+      setChosenPractitioner(parseInt(location.state.appointment.practitionerId));
+    }
+  }, [location]);
+
   useEffect(() => {
     getVisitorByUserId(currentUser.id).then((responseArray) => {
       const visitorObject = responseArray[0];
@@ -66,8 +78,8 @@ export const CreateAnAppointment = ({ currentUser }) => {
       )}
       <fieldset>
         <label>Your appointment will be with: </label>
-        <select onChange={handlePractitionerSelection}>
-          <option value="0">Choose a practitioner...</option>
+        <select value={chosenPractitioner} onChange={handlePractitionerSelection}>
+          <option value="-1">Choose a practitioner...</option>
           {practitioners.map((practitioner) => {
             return (
               <option key={practitioner.id} value={practitioner.id}>
@@ -85,7 +97,7 @@ export const CreateAnAppointment = ({ currentUser }) => {
       </fieldset>
       <fieldset>
         <label>For when would you like to schedule the appointment?</label>
-        <input type="datetime-local" onChange={handleScheduleDate} />
+        <input defaultValue={scheduleDate} type="datetime-local" onChange={handleScheduleDate} />
       </fieldset>
       <button onClick={handleScheduling}>Schedule Appointment</button>
     </form>

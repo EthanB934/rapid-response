@@ -23,7 +23,10 @@ export const VisitorViews = ({ currentUser }) => {
       />
       <Route path="appointments">
         <Route index element={<MyAppointments currentUser={currentUser} />} />
-        <Route path=":appointmentId" element={<AppointmentDetails currentUser={currentUser}/>} />
+        <Route path=":appointmentId">
+          <Route index  element={<AppointmentDetails currentUser={currentUser}/>} />
+          <Route path="edit" element={<CreateAnAppointment currentUser={currentUser}/>} />
+        </Route> 
       </Route> 
     </Routes>
   );

@@ -31,6 +31,11 @@ export const AppointmentDetails = ({ currentUser }) => {
     const appointmentIdAsInteger = parseInt(appointmentId);
     removeAppointment(appointmentIdAsInteger).then(navigate("/appointments"));
   };
+
+  const handleUpdateAppointment = (event) => {
+    event.preventDefault()
+    navigate(`/appointments/${appointmentId}/edit`, { state: {type: "edit", appointment: appointment}})
+  }
   return (
     <>
       {appointment.practitioner ? (
@@ -67,6 +72,9 @@ export const AppointmentDetails = ({ currentUser }) => {
             </span>
             <button onClick={handleRemoveAppointment}>
                 Cancel
+              </button>
+              <button onClick={handleUpdateAppointment}>
+                Update
               </button>
             </>
           )}
