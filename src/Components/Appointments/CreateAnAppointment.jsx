@@ -123,7 +123,7 @@ export const CreateAnAppointment = ({ currentUser }) => {
           onChange={handleScheduleDate}
         />
       </fieldset>
-      {location.state.type === "edit" ? (
+      {location.state?.type === "edit" ? (
         <button onClick={handleUpdateAppointmentDetails}>Update Appointment Details</button>
       ) : (
         <button onClick={handleScheduling}>Schedule Appointment</button>
