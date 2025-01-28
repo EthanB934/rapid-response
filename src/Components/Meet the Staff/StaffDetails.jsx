@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getProfileByPractitionerId } from "../../Services/PractitionerServices";
 
-export const StaffDetails = () => {
+export const StaffDetails = ({ currentUser }) => {
   const [profile, setProfile] = useState({});
   const { practitionerId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getProfileByPractitionerId(practitionerId).then((responseArray) => {
@@ -12,6 +13,11 @@ export const StaffDetails = () => {
       setProfile(practitionerProfile);
     });
   }, [practitionerId]);
+
+  const handleScheduleAppointment = (event) => {
+    event.preventDefault()
+    navigate("/create", {state: {type: "create", practitionerId: practitionerId}})
+  }
 
   return (
     <>
@@ -24,13 +30,22 @@ export const StaffDetails = () => {
               dedicated field(s),{" "}
               {profile.practitioner.practice.map((practice) => {
                 return <>{practice}</>;
-              })}{", "}
-              for {profile.practitioner.experience} years. Here is a little bit about me, outside of work. {profile.bio}
+              })}
+              {", "}
+              for {profile.practitioner.experience} years. Here is a little bit
+              about me, outside of work. {profile.bio}
             </p>
           </section>
         </article>
       ) : (
         <>{"Waiting for details..."}</>
+      )}
+      {currentUser.isStaff ? (
+        " "
+      ) : (
+        <button onClick={handleScheduleAppointment}>
+          Schedule Appointment
+        </button>
       )}
     </>
   );

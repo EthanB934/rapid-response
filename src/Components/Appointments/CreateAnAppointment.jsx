@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { getVisitorByUserId } from "../../Services/UserServices";
 import { getAllPractitioners } from "../../Services/PractitionerServices";
-import { scheduleAppointment, updateAppointmentDetails } from "../../Services/AppointmentServices";
+import {
+  scheduleAppointment,
+  updateAppointmentDetails,
+} from "../../Services/AppointmentServices";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export const CreateAnAppointment = ({ currentUser }) => {
@@ -15,12 +18,17 @@ export const CreateAnAppointment = ({ currentUser }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (location.state) {
+    if (location.state.type === "edit") {
       console.log(location.state.appointment);
       setReason(location.state.appointment.reason);
       setScheduleDate(location.state.appointment.scheduledDate);
       setChosenPractitioner(
         parseInt(location.state.appointment.practitionerId)
+      );
+    }
+    if (location.state.type === "create") {
+      setChosenPractitioner(
+        parseInt(location.state.practitionerId)
       );
     }
   }, [location]);
@@ -64,7 +72,7 @@ export const CreateAnAppointment = ({ currentUser }) => {
   };
 
   const handleUpdateAppointmentDetails = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const updatedAppointmentForm = {
       id: location.state.appointment.id,
       reason: reason,
@@ -73,9 +81,10 @@ export const CreateAnAppointment = ({ currentUser }) => {
       practitionerId: chosenPractitioner,
       completed: appointmentCompleted,
     };
-    updateAppointmentDetails(updatedAppointmentForm)
-    .then(navigate("/appointments"))
-  }
+    updateAppointmentDetails(updatedAppointmentForm).then(
+      navigate("/appointments")
+    );
+  };
   return (
     <form>
       {visitor ? (
@@ -124,7 +133,9 @@ export const CreateAnAppointment = ({ currentUser }) => {
         />
       </fieldset>
       {location.state?.type === "edit" ? (
-        <button onClick={handleUpdateAppointmentDetails}>Update Appointment Details</button>
+        <button onClick={handleUpdateAppointmentDetails}>
+          Update Appointment Details
+        </button>
       ) : (
         <button onClick={handleScheduling}>Schedule Appointment</button>
       )}

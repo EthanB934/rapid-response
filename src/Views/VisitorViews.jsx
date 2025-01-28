@@ -38,7 +38,7 @@ export const VisitorViews = ({ currentUser }) => {
         </Route>
         <Route path="meetthestaff">
           <Route index element={<MeetTheStaff />} />
-          <Route path=":practitionerId" element={<StaffDetails />} />
+          <Route path=":practitionerId" element={<StaffDetails currentUser={currentUser} />} />
         </Route>
       </Route>
     </Routes>
