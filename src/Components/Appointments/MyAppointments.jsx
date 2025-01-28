@@ -69,7 +69,12 @@ export const MyAppointments = ({ currentUser }) => {
                     <i className="fa-solid fa-check"></i>
                   </>
                 ) : (
+                  " "
+                )}
+                {!currentUser.isStaff && appointment.completed === false ? (
                   <i className="fa-solid fa-x"></i>
+                ) : (
+                  " "
                 )}
               </div>
             );
