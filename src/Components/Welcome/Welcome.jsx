@@ -1,3 +1,12 @@
+import "./Welcome.css";
 export const Welcome = () => {
-    return <>Here is the welcome home component</>
-}
+  return (
+    <article>
+      <header>
+        <h1>
+          <strong>Welcome to Rapid Response!</strong>
+        </h1>
+      </header>
+    </article>
+  );
+};
