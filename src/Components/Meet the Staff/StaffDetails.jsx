@@ -34,7 +34,7 @@ export const StaffDetails = ({ currentUser }) => {
 
   const handleEditProfile = (event) => {
     event.preventDefault();
-    navigate("/profile", { state: { type: "create", profile: profile } });
+    navigate("/profile", { state: { type: "edit", profile: profile } });
   };
   return (
     <>

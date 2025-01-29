@@ -7,7 +7,7 @@ export const StaffMemberNavigationBar = ({ profile }) => {
       {profile?.practitioner ? (
         <Link to={`/meetthestaff/${profile.practitionerId}`}>My Profile</Link>
       ) : (
-        <Link to="create">My Profile</Link>
+        <Link to="profile">My Profile</Link>
       )}
       <Link to="appointments">My Appointments</Link>
       <Link to="meetthestaff">Meet the Staff</Link>

@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
 import { createProfile, getAllGenders } from "../../Services/ProfileServices";
 import { getPractitionerByUserId } from "../../Services/PractitionerServices";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const CreateProfile = ({ currentUser }) => {
   const [genders, setGenders] = useState([]);
   const [practitioner, setPractitioner] = useState({});
   const [practitionerBio, setPractitionerBio] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state.type === "edit") {
+      setPractitionerBio(location.state.profile.bio);
+    }
+  }, [location]);
 
   useEffect(() => {
     getAllGenders().then((responseArray) => setGenders(responseArray));
@@ -59,7 +66,10 @@ export const CreateProfile = ({ currentUser }) => {
         <label>Tell Your Clients About Yourself!</label>{" "}
         <textarea value={practitionerBio} onChange={profileBio}></textarea>
       </fieldset>
-      <button onClick={handleCreateProfile}>Create Profile</button>
+      {location?.state?.profile 
+      ?  <button>Edit Profile</button>
+      :  <button onClick={handleCreateProfile}>Create Profile</button>
+      }
     </form>
   );
 };

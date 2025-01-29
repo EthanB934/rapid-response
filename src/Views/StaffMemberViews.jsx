@@ -38,7 +38,7 @@ export const StaffMemberViews = ({ currentUser }) => {
       >
         <Route path="/" element={<>welcome</>} />
         <Route
-          path="create"
+          path="profile"
           element={<CreateProfile currentUser={currentUser} />}
         />
         <Route path="appointments">
