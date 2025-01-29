@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { createProfile, getAllGenders } from "../../Services/ProfileServices";
+import {
+  createProfile,
+  getAllGenders,
+  updateProfile,
+} from "../../Services/ProfileServices";
 import { getPractitionerByUserId } from "../../Services/PractitionerServices";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -7,12 +11,14 @@ export const CreateProfile = ({ currentUser }) => {
   const [genders, setGenders] = useState([]);
   const [practitioner, setPractitioner] = useState({});
   const [practitionerBio, setPractitionerBio] = useState("");
+  const [profile, setProfile] = useState({});
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    if (location.state.type === "edit") {
+    if (location.state?.type === "edit") {
       setPractitionerBio(location.state.profile.bio);
+      setProfile(location.state.profile);
     }
   }, [location]);
 
@@ -35,6 +41,18 @@ export const CreateProfile = ({ currentUser }) => {
       bio: practitionerBio,
     };
     createProfile(profileForm).then(
+      navigate(`/meetthestaff/${practitioner.id}`)
+    );
+  };
+  const handleUpdateProfile = (event) => {
+    event.preventDefault();
+    const profileForm = {
+      id: location.state?.profile.id,
+      practitionerId: practitioner.id,
+      bio: practitionerBio,
+    };
+    console.log(profileForm);
+    updateProfile(profileForm).then(
       navigate(`/meetthestaff/${practitioner.id}`)
     );
   };
@@ -66,10 +84,11 @@ export const CreateProfile = ({ currentUser }) => {
         <label>Tell Your Clients About Yourself!</label>{" "}
         <textarea value={practitionerBio} onChange={profileBio}></textarea>
       </fieldset>
-      {location?.state?.profile 
-      ?  <button>Edit Profile</button>
-      :  <button onClick={handleCreateProfile}>Create Profile</button>
-      }
+      {profile ? (
+        <button onClick={handleUpdateProfile}>Save Changes to Profile</button>
+      ) : (
+        <button onClick={handleCreateProfile}>Create Profile</button>
+      )}
     </form>
   );
 };
