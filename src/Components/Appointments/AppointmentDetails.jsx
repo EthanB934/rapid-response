@@ -5,7 +5,7 @@ import {
   removeAppointment,
 } from "../../Services/AppointmentServices";
 import { getVisitorByUserId } from "../../Services/UserServices";
-
+import { getPractitionerByUserId } from "../../Services/PractitionerServices";
 export const AppointmentDetails = ({ currentUser }) => {
   const [appointment, setAppointment] = useState({});
   const [visitor, setVisitor] = useState({});
@@ -20,10 +20,18 @@ export const AppointmentDetails = ({ currentUser }) => {
   }, [appointmentId]);
 
   useEffect(() => {
-    getVisitorByUserId(currentUser.id).then((responseArray) => {
-      const visitorObject = responseArray[0];
-      setVisitor(visitorObject);
-    });
+    if (!currentUser.isStaff) {
+      getVisitorByUserId(currentUser.id).then((responseArray) => {
+        const visitorObject = responseArray[0];
+        setVisitor(visitorObject);
+      });
+    }
+    if (currentUser.isStaff) {
+      getPractitionerByUserId(currentUser.id).then((responseArray) => {
+        const visitorObject = responseArray[0];
+        setVisitor(visitorObject);
+      });
+    }
   }, [currentUser]);
 
   const handleRemoveAppointment = (event) => {
@@ -38,6 +46,7 @@ export const AppointmentDetails = ({ currentUser }) => {
       state: { type: "edit", appointment: appointment },
     });
   };
+
   return (
     <>
       {appointment.practitioner ? (
@@ -54,7 +63,7 @@ export const AppointmentDetails = ({ currentUser }) => {
             . He has {appointment.practitioner.experience} years of experience
             as a doctor.
           </p>
-          {appointment.completed ? (
+          {!currentUser.isStaff && appointment.completed === true ? (
             <>
               <label>
                 This appointment was marked as completed on{" "}
@@ -67,16 +76,48 @@ export const AppointmentDetails = ({ currentUser }) => {
               <button onClick={handleRemoveAppointment}>Remove</button>
             </>
           ) : (
+            " "
+          )}
+          {!currentUser.isStaff && appointment.completed === false ? (
             <>
               <label>
                 This appointment is scheduled for {appointment.scheduledDate}
-              </label>{" "}
+              </label>
               <span>
                 This appointment is still pending. We hope to see you soon!
               </span>
               <button onClick={handleRemoveAppointment}>Cancel</button>
               <button onClick={handleUpdateAppointment}>Update</button>
             </>
+          ) : (
+            " "
+          )}
+          {currentUser.isStaff && appointment.completed === true ? (
+            <>
+              <label>
+                This appointment was marked as completed on{" "}
+                {appointment.scheduledDate}{" "}
+              </label>
+              <span>
+                This appointment has been completed. We hope the visit went
+                well!
+              </span>
+            </>
+          ) : (
+            " "
+          )}
+          {currentUser.isStaff && appointment.completed === false ? (
+            <>
+              <label>
+                This appointment is scheduled for {appointment.scheduledDate}
+              </label>
+              {" "}
+              <span>
+                This appointment is still pending. We hope to see you soon!
+              </span>
+            </>
+          ) : (
+            " "
           )}
         </>
       ) : (
