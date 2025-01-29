@@ -11,3 +11,8 @@ export const getPractitionerByUserId = async (userId) => {
       (res) => res.json()
     );
   };
+  export const getPractitionerById = async (practitionerId) => {
+    return await fetch(`http://localhost:8088/practitioners?id=${practitionerId}`).then(
+      (res) => res.json()
+    );
+  };

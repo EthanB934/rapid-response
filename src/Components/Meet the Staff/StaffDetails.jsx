@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getProfileByPractitionerId } from "../../Services/PractitionerServices";
+import {
+  getPractitionerById,
+  getProfileByPractitionerId,
+} from "../../Services/PractitionerServices";
 
 export const StaffDetails = ({ currentUser }) => {
   const [profile, setProfile] = useState({});
+  const [author, setAuthor] = useState({});
   const { practitionerId } = useParams();
   const navigate = useNavigate();
 
@@ -14,11 +18,24 @@ export const StaffDetails = ({ currentUser }) => {
     });
   }, [practitionerId]);
 
-  const handleScheduleAppointment = (event) => {
-    event.preventDefault()
-    navigate("/create", {state: {type: "create", practitionerId: practitionerId}})
-  }
+  useEffect(() => {
+    getPractitionerById(practitionerId).then((practitionerArray) => {
+      const practitionerObject = practitionerArray[0];
+      setAuthor(practitionerObject);
+    });
+  }, [practitionerId]);
 
+  const handleScheduleAppointment = (event) => {
+    event.preventDefault();
+    navigate("/create", {
+      state: { type: "create", practitionerId: practitionerId },
+    });
+  };
+
+  const handleEditProfile = (event) => {
+    event.preventDefault();
+    navigate("/profile", { state: { type: "create", profile: profile } });
+  };
   return (
     <>
       {profile.practitioner ? (
@@ -39,6 +56,11 @@ export const StaffDetails = ({ currentUser }) => {
         </article>
       ) : (
         <>{"Waiting for details..."}</>
+      )}
+      {currentUser.isStaff && currentUser.id === author.userId ? (
+        <button onClick={handleEditProfile}>Edit Profile</button>
+      ) : (
+        " "
       )}
       {currentUser.isStaff ? (
         " "
