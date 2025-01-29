@@ -9,7 +9,8 @@ ul {
 }
 li {
     display: inline-block;
-    margin-inline: 2rem;
+    margin-inline: 4rem;
+    font-size: x-large;
 }
 
 a {
