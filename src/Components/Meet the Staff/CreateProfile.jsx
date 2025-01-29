@@ -84,7 +84,7 @@ export const CreateProfile = ({ currentUser }) => {
         <label>Tell Your Clients About Yourself!</label>{" "}
         <textarea value={practitionerBio} onChange={profileBio}></textarea>
       </fieldset>
-      {profile ? (
+      {location.state?.type === "edit" ? (
         <button onClick={handleUpdateProfile}>Save Changes to Profile</button>
       ) : (
         <button onClick={handleCreateProfile}>Create Profile</button>

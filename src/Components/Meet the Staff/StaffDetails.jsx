@@ -38,7 +38,7 @@ export const StaffDetails = ({ currentUser }) => {
   };
   return (
     <>
-      {profile.practitioner ? (
+      {profile?.practitioner ? (
         <article>
           <section>
             <p>
