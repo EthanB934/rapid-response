@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { getAllGenders } from "../../Services/ProfileServices";
+import { createProfile, getAllGenders } from "../../Services/ProfileServices";
 import { getPractitionerByUserId } from "../../Services/PractitionerServices";
+import { useNavigate } from "react-router-dom";
 
 export const CreateProfile = ({ currentUser }) => {
   const [genders, setGenders] = useState([]);
   const [practitioner, setPractitioner] = useState({});
-  const [practitionerBio, setPractitionerBio] = useState("")
+  const [practitionerBio, setPractitionerBio] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAllGenders().then((responseArray) => setGenders(responseArray));
@@ -18,8 +20,17 @@ export const CreateProfile = ({ currentUser }) => {
     });
   }, [currentUser]);
   const profileBio = (event) => {
-    setPractitionerBio(event.target.value)
-  }
+    setPractitionerBio(event.target.value);
+  };
+  const handleCreateProfile = () => {
+    const profileForm = {
+      practitionerId: practitioner.id,
+      bio: practitionerBio,
+    };
+    createProfile(profileForm).then(
+      navigate(`/meetthestaff/${practitioner.id}`)
+    );
+  };
   return (
     <form>
       <fieldset>
@@ -48,6 +59,7 @@ export const CreateProfile = ({ currentUser }) => {
         <label>Tell Your Clients About Yourself!</label>{" "}
         <textarea value={practitionerBio} onChange={profileBio}></textarea>
       </fieldset>
+      <button onClick={handleCreateProfile}>Create Profile</button>
     </form>
   );
 };
