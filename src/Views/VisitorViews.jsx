@@ -5,6 +5,7 @@ import { MyAppointments } from "../Components/Appointments/MyAppointments";
 import { AppointmentDetails } from "../Components/Appointments/AppointmentDetails";
 import { MeetTheStaff } from "../Components/Meet the Staff/MeetTheStaff";
 import { StaffDetails } from "../Components/Meet the Staff/StaffDetails";
+import { Welcome } from "../Components/Welcome/Welcome";
 
 export const VisitorViews = ({ currentUser }) => {
   return (
@@ -18,7 +19,7 @@ export const VisitorViews = ({ currentUser }) => {
           </>
         }
       >
-        <Route path="/" element={<>welcome</>} />
+        <Route path="/" element={<Welcome />} />
         <Route
           path="create"
           element={<CreateAnAppointment currentUser={currentUser} />}

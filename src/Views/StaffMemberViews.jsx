@@ -10,6 +10,7 @@ import {
   getPractitionerByUserId,
   getProfileByPractitionerId,
 } from "../Services/PractitionerServices";
+import { Welcome } from "../Components/Welcome/Welcome";
 
 export const StaffMemberViews = ({ currentUser }) => {
   const [profile, setProfile] = useState({});
@@ -36,7 +37,7 @@ export const StaffMemberViews = ({ currentUser }) => {
           </>
         }
       >
-        <Route path="/" element={<>welcome</>} />
+        <Route path="/" element={<Welcome />} />
         <Route
           path="profile"
           element={<CreateProfile currentUser={currentUser} />}
