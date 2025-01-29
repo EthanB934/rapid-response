@@ -3,6 +3,7 @@ import {
   getAppointmentsByPractitionerId,
   getAppointmentsByVisitorId,
   removeAppointment,
+  updateAppointmentDetails,
 } from "../../Services/AppointmentServices";
 import { Link } from "react-router-dom";
 import { getVisitorByUserId } from "../../Services/UserServices";
@@ -50,8 +51,21 @@ export const MyAppointments = ({ currentUser }) => {
   };
 
   const handleAppointmentCompletion = (event) => {
-    console.log(parseInt(event.target.value))
-    //Zzz
+    const appointmentId = parseInt(event.target.value);
+    // debugger
+    const chosenAppointmentToComplete = appointments.filter((appointment) => appointment.id === appointmentId)
+    
+    const appointmentFormForStatusUpdate = {
+      id: appointmentId,
+      reason: chosenAppointmentToComplete[0].reason,
+      scheduledDate: chosenAppointmentToComplete[0].scheduledDate,
+      visitorId: chosenAppointmentToComplete[0].visitorId,
+      practitionerId: visitor.id,
+      completed: true,
+    }
+    updateAppointmentDetails(appointmentFormForStatusUpdate).then(getAndSetAppointments)
+    // completeAppointment(appointmentId)
+    
   };
 
   return (
@@ -83,17 +97,17 @@ export const MyAppointments = ({ currentUser }) => {
                 ) : (
                   " "
                 )}
-                {currentUser.isStaff ? (
+                {currentUser.isStaff && appointment.completed === false ? (
                   <div>
-                    <p>Complete?</p>
-                    <input
-                      type="checkbox"
+                    <button
                       value={appointment.id}
-                      onChange={handleAppointmentCompletion}
-                    />
+                      onClick={handleAppointmentCompletion}
+                    >
+                      Complete
+                    </button>
                   </div>
                 ) : (
-                  " "
+                  "This appointment has been completed"
                 )}
               </div>
             );
