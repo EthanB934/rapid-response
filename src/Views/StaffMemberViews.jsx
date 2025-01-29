@@ -4,6 +4,7 @@ import { MyAppointments } from "../Components/Appointments/MyAppointments";
 import { AppointmentDetails } from "../Components/Appointments/AppointmentDetails";
 import { MeetTheStaff } from "../Components/Meet the Staff/MeetTheStaff";
 import { StaffDetails } from "../Components/Meet the Staff/StaffDetails";
+import { CreateProfile } from "../Components/Meet the Staff/CreateProfile";
 
 export const StaffMemberViews = ({currentUser}) => {
   return (
@@ -20,7 +21,7 @@ export const StaffMemberViews = ({currentUser}) => {
         <Route path="/" element={<>welcome</>} />
         <Route
               path="create"
-              element={<>Profile</>}
+              element={<CreateProfile currentUser={currentUser}/>}
             />
         <Route path="appointments">
           <Route index element={<MyAppointments currentUser={currentUser} />} />
