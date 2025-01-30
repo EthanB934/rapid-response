@@ -4,7 +4,7 @@ import {
   getPractitionerById,
   getProfileByPractitionerId,
 } from "../../Services/PractitionerServices";
-
+import "./MeetTheStaff.css";
 export const StaffDetails = ({ currentUser }) => {
   const [profile, setProfile] = useState({});
   const [author, setAuthor] = useState({});
@@ -39,8 +39,13 @@ export const StaffDetails = ({ currentUser }) => {
   return (
     <>
       {profile?.practitioner ? (
-        <article>
-          <section>
+        <article className="profile">
+          <section className="image">
+            {" "}
+            <img
+              src="/src/images/profileplaceholder.png"
+              alt="Profile Picture"
+            />
             <p>
               My name is {profile.practitioner.fullName}, I am{" "}
               {profile.practitioner.age} years young. I have been working in my
@@ -55,19 +60,27 @@ export const StaffDetails = ({ currentUser }) => {
           </section>
         </article>
       ) : (
-        <>{"Waiting for details..."}</>
+        <article>{"Waiting for details..."}</article>
       )}
       {currentUser.isStaff && currentUser.id === author.userId ? (
-        <button onClick={handleEditProfile}>Edit Profile</button>
+        <article>
+          <section>
+            <button onClick={handleEditProfile}>Edit Profile</button>
+          </section>
+        </article>
       ) : (
         " "
       )}
       {currentUser.isStaff ? (
         " "
       ) : (
-        <button onClick={handleScheduleAppointment}>
-          Schedule Appointment
-        </button>
+        <article>
+          <section>
+            <button onClick={handleScheduleAppointment}>
+              Schedule Appointment
+            </button>
+          </section>
+        </article>
       )}
     </>
   );

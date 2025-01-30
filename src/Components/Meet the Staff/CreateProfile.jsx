@@ -6,7 +6,7 @@ import {
 } from "../../Services/ProfileServices";
 import { getPractitionerByUserId } from "../../Services/PractitionerServices";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import "./CreateProfile.css"
 export const CreateProfile = ({ currentUser }) => {
   const [genders, setGenders] = useState([]);
   const [practitioner, setPractitioner] = useState({});
