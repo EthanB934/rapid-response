@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { getAllPractitioners } from "../../Services/PractitionerServices";
 import { Link } from "react-router-dom";
-
+// import"../Appointments.css"
 export const MeetTheStaff = () => {
   const [practitioners, setPractitioners] = useState([]);
 

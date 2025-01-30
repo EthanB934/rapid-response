@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "../NavigationBars.css";
 export const StaffMemberNavigationBar = ({ profile }) => {
   return (
-    <ul>
+    <ul className="nav">
       <li>
         <Link to="/">Home</Link>
       </li>
@@ -21,7 +21,7 @@ export const StaffMemberNavigationBar = ({ profile }) => {
       <li>
         <Link to="meetthestaff">Meet the Staff</Link>
       </li>
-      <li>
+      <li className="logout"> 
         <Link
           to=""
           onClick={() => {
