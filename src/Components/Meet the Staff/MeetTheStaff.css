@@ -11,6 +11,26 @@ article {
     align-content: center;
     -webkit-column-break-after: avoid;
 }
+
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 45%;
+    background-color: white;
+    border-radius: 25%;
+    border: 2px solid black;
+    margin: 0 auto;
+    padding-bottom: 1rem;
+}
+
+label {
+    background-color: whitesmoke;
+}
+span {
+    background-color: whitesmoke;
+    max-width: 60%;
+}
 img{
     float: left;
     max-width: 150px;
@@ -32,6 +52,12 @@ p {
 button {
    color: darkblue;
    box-shadow: 0px 2px 2px 2px;
+}
+.buttons {
+    display: flex;  
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 1rem;
 }
 
 button:hover {

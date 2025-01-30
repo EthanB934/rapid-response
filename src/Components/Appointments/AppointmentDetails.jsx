@@ -6,6 +6,7 @@ import {
 } from "../../Services/AppointmentServices";
 import { getVisitorByUserId } from "../../Services/UserServices";
 import { getPractitionerByUserId } from "../../Services/PractitionerServices";
+import "../Meet the Staff/MeetTheStaff.css";
 export const AppointmentDetails = ({ currentUser }) => {
   const [appointment, setAppointment] = useState({});
   const [visitor, setVisitor] = useState({});
@@ -48,81 +49,82 @@ export const AppointmentDetails = ({ currentUser }) => {
   };
 
   return (
-    <>
+    <article>
       {appointment.practitioner ? (
         <>
           <h1>Appointment Details for Appointment #{appointment.id}</h1>
-          <p>
-            Your have scheduled this appointment for the following reason:{" "}
-            {appointment.reason}. You will be meeting with our trusted clinical
-            expert {appointment.practitioner.fullName}. Doctor{" "}
-            {appointment.practitioner.fullName} practices{" "}
-            {appointment.practitioner.practice.map((practice) => {
-              return <>{practice}</>;
-            })}
-            . He has {appointment.practitioner.experience} years of experience
-            as a doctor.
-          </p>
-          {!currentUser.isStaff && appointment.completed === true ? (
-            <>
-              <label>
-                This appointment was marked as completed on{" "}
-                {appointment.scheduledDate}{" "}
-              </label>
-              <span>
-                This appointment has been completed. We hope the visit went
-                well!
-              </span>
-              <button onClick={handleRemoveAppointment}>Remove</button>
-            </>
-          ) : (
-            " "
-          )}
-          {!currentUser.isStaff && appointment.completed === false ? (
-            <>
-              <label>
-                This appointment is scheduled for {appointment.scheduledDate}
-              </label>
-              <span>
-                This appointment is still pending. We hope to see you soon!
-              </span>
-              <button onClick={handleRemoveAppointment}>Cancel</button>
-              <button onClick={handleUpdateAppointment}>Update</button>
-            </>
-          ) : (
-            " "
-          )}
-          {currentUser.isStaff && appointment.completed === true ? (
-            <>
-              <label>
-                This appointment was marked as completed on{" "}
-                {appointment.scheduledDate}{" "}
-              </label>
-              <span>
-                This appointment has been completed. We hope the visit went
-                well!
-              </span>
-            </>
-          ) : (
-            " "
-          )}
-          {currentUser.isStaff && appointment.completed === false ? (
-            <>
-              <label>
-                This appointment is scheduled for {appointment.scheduledDate}
-              </label>
-              {" "}
-              <span>
-                This appointment is still pending. We hope to see you soon!
-              </span>
-            </>
-          ) : (
-            " "
-          )}
+          <section>
+            <p className="details">
+              Your have scheduled this appointment for the following reason:{" "}
+              {appointment.reason}. You will be meeting with our trusted
+              clinical expert {appointment.practitioner.fullName}. Doctor{" "}
+              {appointment.practitioner.fullName} practices{" "}
+              {appointment.practitioner.practice.map((practice) => {
+                return <>{practice}</>;
+              })}
+              . He has {appointment.practitioner.experience} years of experience
+              as a doctor.
+            </p>
+            {!currentUser.isStaff && appointment.completed === true ? (
+              <>
+                <label>
+                  This appointment was marked as completed on{" "}
+                  {appointment.scheduledDate}{" "}
+                </label>
+                <span>
+                  This appointment has been completed. We hope the visit went
+                  well!
+                </span>
+                <button className="buttons" onClick={handleRemoveAppointment}>Remove</button>
+              </>
+            ) : (
+              " "
+            )}
+            {!currentUser.isStaff && appointment.completed === false ? (
+              <>
+                <label>
+                  This appointment is scheduled for {appointment.scheduledDate}
+                </label>
+                <span>
+                  This appointment is still pending. We hope to see you soon!
+                </span>
+                <button className="buttons" onClick={handleRemoveAppointment}>Cancel</button>
+                <button className="buttons"onClick={handleUpdateAppointment}>Update</button>
+              </>
+            ) : (
+              " "
+            )}
+            {currentUser.isStaff && appointment.completed === true ? (
+              <>
+                <label>
+                  This appointment was marked as completed on{" "}
+                  {appointment.scheduledDate}{" "}
+                </label>
+                <span>
+                  This appointment has been completed. We hope the visit went
+                  well!
+                </span>
+              </>
+            ) : (
+              " "
+            )}
+            {currentUser.isStaff && appointment.completed === false ? (
+              <>
+                <label>
+                  This appointment is scheduled for {appointment.scheduledDate}
+                </label>{" "}
+                <span>
+                  This appointment is still pending. We hope to see you soon!
+                </span>
+              </>
+            ) : (
+              " "
+            )}
+          </section>
         </>
       ) : (
         "Waiting for practitioner"
       )}
-    </>
+    </article>
   );
 };
