@@ -6,7 +6,7 @@ import {
   updateAppointmentDetails,
 } from "../../Services/AppointmentServices";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import "./AppointmentDetails.css";
 export const CreateAnAppointment = ({ currentUser }) => {
   const [visitor, setVisitor] = useState({});
   const [reason, setReason] = useState("");
@@ -25,11 +25,8 @@ export const CreateAnAppointment = ({ currentUser }) => {
       setChosenPractitioner(
         parseInt(location.state.appointment.practitionerId)
       );
-    }
-    else if (location.state?.type === "create") {
-      setChosenPractitioner(
-        parseInt(location.state.practitionerId)
-      );
+    } else if (location.state?.type === "create") {
+      setChosenPractitioner(parseInt(location.state.practitionerId));
     }
   }, [location]);
 
@@ -70,7 +67,7 @@ export const CreateAnAppointment = ({ currentUser }) => {
       window.alert(`Please ensure that all form fields have been filled out.`);
     }
   };
-  
+
   const handleUpdateAppointmentDetails = (event) => {
     event.preventDefault();
     const updatedAppointmentForm = {
@@ -90,54 +87,56 @@ export const CreateAnAppointment = ({ currentUser }) => {
       {visitor ? (
         <>
           <h1>Create An Appointment</h1>
-          <fieldset>
-            <label>Your Name</label>
-            <input type="text" value={visitor.fullName} />
-            <label>Your Date of Birth</label>
-            <input type="text" value={visitor.dateOfBirth} />
-            <label>Your Gender</label>
-            <input type="text" value={visitor.genderId} />
-          </fieldset>
+          <div className="form">
+            <fieldset className="visitorInfo">
+              <label>Your Name</label>
+              <input type="text" value={visitor.fullName} />
+              <label>Your Date of Birth</label>
+              <input type="text" value={visitor.dateOfBirth} />
+              <label>Your Gender</label>
+              <input type="text" value={visitor.genderId} />
+            </fieldset>
+          </div>
         </>
       ) : (
         "Loading..."
       )}
-      <fieldset>
-        <label>Your appointment will be with: </label>
-        <select
-          value={chosenPractitioner}
-          onChange={handlePractitionerSelection}
-        >
-          <option value="-1">Choose a practitioner...</option>
-          {practitioners.map((practitioner) => {
-            return (
-              <option key={practitioner.id} value={practitioner.id}>
-                {practitioner.fullName}
-              </option>
-            );
-          })}
-        </select>
-        <label>Reason for Appointment</label>
-        <textarea
-          type="text"
-          value={reason}
-          onChange={(event) => handleReasonChange(event)}
-        ></textarea>
-      </fieldset>
-      <fieldset>
-        <label>For when would you like to schedule the appointment?</label>
-        <input
-          defaultValue={scheduleDate}
-          type="datetime-local"
-          onChange={handleScheduleDate}
-        />
-      </fieldset>
+      <div className="form">
+        <fieldset className="appointmentInfo">
+          <label>Your appointment will be with: </label>
+          <select
+            value={chosenPractitioner}
+            onChange={handlePractitionerSelection}
+          >
+            <option value="-1">Choose a practitioner...</option>
+            {practitioners.map((practitioner) => {
+              return (
+                <option key={practitioner.id} value={practitioner.id}>
+                  {practitioner.fullName}
+                </option>
+              );
+            })}
+          </select>
+          <label>Reason for Appointment</label>
+          <textarea
+            type="text"
+            value={reason}
+            onChange={(event) => handleReasonChange(event)}
+          ></textarea>
+          <label>For when would you like to schedule the appointment?</label>
+          <input
+            defaultValue={scheduleDate}
+            type="datetime-local"
+            onChange={handleScheduleDate}
+          />
+        </fieldset>
+      </div>
       {location.state?.type === "edit" ? (
-        <button onClick={handleUpdateAppointmentDetails}>
+        <button className="formButtons" onClick={handleUpdateAppointmentDetails}>
           Update Appointment Details
         </button>
       ) : (
-        <button onClick={handleScheduling}>Schedule Appointment</button>
+        <button className="formButtons" onClick={handleScheduling}>Schedule Appointment</button>
       )}
     </form>
   );

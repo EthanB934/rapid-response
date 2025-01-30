@@ -79,7 +79,7 @@ export const MyAppointments = ({ currentUser }) => {
             return (
               <div className="listCard">
                 <Link
-                  className="link"
+                  className="ink"
                   to={`/appointments/${appointment.id}`}
                 >
                   {appointment.reason}
