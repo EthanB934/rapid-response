@@ -70,7 +70,7 @@ export const CreateAnAppointment = ({ currentUser }) => {
       window.alert(`Please ensure that all form fields have been filled out.`);
     }
   };
-
+  
   const handleUpdateAppointmentDetails = (event) => {
     event.preventDefault();
     const updatedAppointmentForm = {

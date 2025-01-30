@@ -60,7 +60,7 @@ export const StaffDetails = ({ currentUser }) => {
           </section>
         </article>
       ) : (
-        <article>{"Waiting for details..."}</article>
+        <article>{"This staff member does not yet have a profile page"}</article>
       )}
       {currentUser.isStaff && currentUser.id === author.userId ? (
         <article>

@@ -8,7 +8,7 @@ import {
 import { Link } from "react-router-dom";
 import { getVisitorByUserId } from "../../Services/UserServices";
 import { getPractitionerByUserId } from "../../Services/PractitionerServices";
-
+import "./MyAppointments.css";
 export const MyAppointments = ({ currentUser }) => {
   const [appointments, setAppointments] = useState([]);
   const [visitor, setVisitor] = useState({});
@@ -53,8 +53,10 @@ export const MyAppointments = ({ currentUser }) => {
   const handleAppointmentCompletion = (event) => {
     const appointmentId = parseInt(event.target.value);
     // debugger
-    const chosenAppointmentToComplete = appointments.filter((appointment) => appointment.id === appointmentId)
-    
+    const chosenAppointmentToComplete = appointments.filter(
+      (appointment) => appointment.id === appointmentId
+    );
+
     const appointmentFormForStatusUpdate = {
       id: appointmentId,
       reason: chosenAppointmentToComplete[0].reason,
@@ -62,10 +64,11 @@ export const MyAppointments = ({ currentUser }) => {
       visitorId: chosenAppointmentToComplete[0].visitorId,
       practitionerId: visitor.id,
       completed: true,
-    }
-    updateAppointmentDetails(appointmentFormForStatusUpdate).then(getAndSetAppointments)
+    };
+    updateAppointmentDetails(appointmentFormForStatusUpdate).then(
+      getAndSetAppointments
+    );
     // completeAppointment(appointmentId)
-    
   };
 
   return (
@@ -74,41 +77,43 @@ export const MyAppointments = ({ currentUser }) => {
         <>
           {appointments.map((appointment) => {
             return (
-              <div key={appointment.id}>
-                <Link to={`/appointments/${appointment.id}`}>
-                  {appointment.reason}
-                </Link>
-                {appointment.scheduledDate}
-                {!currentUser.isStaff && appointment.completed === true ? (
-                  <>
-                    <button
-                      value={appointment.id}
-                      onClick={handleRemoveAppointment}
-                    >
-                      Remove
-                    </button>
-                    <i className="fa-solid fa-check"></i>
-                  </>
-                ) : (
-                  " "
-                )}
-                {!currentUser.isStaff && appointment.completed === false ? (
-                  <i className="fa-solid fa-x"></i>
-                ) : (
-                  " "
-                )}
-                {currentUser.isStaff && appointment.completed === false ? (
-                  <div>
-                    <button
-                      value={appointment.id}
-                      onClick={handleAppointmentCompletion}
-                    >
-                      Complete
-                    </button>
-                  </div>
-                ) : (
-                  "This appointment has been completed"
-                )}
+              <div key={appointment.id} className="list">
+                <div className="listCard">
+                  <Link className="appointmentLink" to={`/appointments/${appointment.id}`}>
+                    {appointment.reason}
+                  </Link>{" "}
+                  {appointment.scheduledDate}
+                  {!currentUser.isStaff && appointment.completed === true ? (
+                    <>
+                      <button
+                        value={appointment.id}
+                        onClick={handleRemoveAppointment}
+                      >
+                        Remove
+                      </button>
+                      <i className="fa-solid fa-check"></i>
+                    </>
+                  ) : (
+                    " "
+                  )}
+                  {!currentUser.isStaff && appointment.completed === false ? (
+                    <i className="fa-solid fa-x"></i>
+                  ) : (
+                    " "
+                  )}
+                  {currentUser.isStaff && appointment.completed === false ? (
+                    <div>
+                      <button
+                        value={appointment.id}
+                        onClick={handleAppointmentCompletion}
+                      >
+                        Complete
+                      </button>
+                    </div>
+                  ) : (
+                    "This appointment has been completed"
+                  )}
+                </div>
               </div>
             );
           })}

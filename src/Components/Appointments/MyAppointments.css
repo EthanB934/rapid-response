@@ -1,0 +1,22 @@
+div .list {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: rgba(0, 255, 255, 0.6);
+}
+
+.listCard {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    margin: auto 0;
+}
+
+.appointmentLink {
+    color: maroon
+}
+
+button {
+    padding: 0.5rem;
+}
