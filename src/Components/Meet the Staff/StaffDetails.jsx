@@ -62,7 +62,7 @@ export const StaffDetails = ({ currentUser }) => {
       ) : (
         <article>{"This staff member does not yet have a profile page"}</article>
       )}
-      {currentUser.isStaff && currentUser.id === author.userId ? (
+      {currentUser.isStaff && currentUser.id === author.userId && profile ? (
         <article>
           <section>
             <button onClick={handleEditProfile}>Edit Profile</button>
