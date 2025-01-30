@@ -78,28 +78,31 @@ export const MyAppointments = ({ currentUser }) => {
           {appointments.map((appointment) => {
             return (
               <div className="listCard">
-                <Link
-                  className="ink"
-                  to={`/appointments/${appointment.id}`}
-                >
+                <Link className="ink" to={`/appointments/${appointment.id}`}>
                   {appointment.reason}
                 </Link>{" "}
                 {appointment.scheduledDate}{" "}
                 {!currentUser.isStaff && appointment.completed === true ? (
                   <>
+                    <div>
+                      <i className="fa-solid fa-check"></i>{" "}
+                      {"This appointment has been marked as completed"}
+                    </div>
                     <button
                       value={appointment.id}
                       onClick={handleRemoveAppointment}
                     >
                       Remove
                     </button>
-                    <i className="fa-solid fa-check"></i>
                   </>
                 ) : (
                   " "
                 )}
                 {!currentUser.isStaff && appointment.completed === false ? (
-                  <i className="fa-solid fa-x"></i>
+                  <div>
+                    <i className="fa-solid fa-x"></i>{" "}
+                    {"This appointment has not been marked as completed"}
+                  </div>
                 ) : (
                   " "
                 )}
@@ -111,9 +114,10 @@ export const MyAppointments = ({ currentUser }) => {
                     >
                       Complete
                     </button>
+                    {"This appointment has not been marked as completed"}
                   </div>
                 ) : (
-                  "This appointment has not been completed"
+                  ""
                 )}
               </div>
             );
