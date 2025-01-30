@@ -1,16 +1,22 @@
-div .list {
+body {
+    display: flex;
+    /* background-color: rgba(0, 255, 255, 0.6); */
+}
+div .list{
     display: flex;
     flex-direction: column;
     height: 100vh;
     background-color: rgba(0, 255, 255, 0.6);
 }
 
-.listCard {
+div .listCard {
     display: flex;
-    gap: 2rem;
+    background-color: whitesmoke;
     justify-content: center;
     align-items: center;
-    margin: auto 0;
+    height: 2rem;
+    gap: 2rem;
+    margin: 1rem 0; 
 }
 
 .appointmentLink {

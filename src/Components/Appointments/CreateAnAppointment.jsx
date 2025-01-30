@@ -57,7 +57,7 @@ export const CreateAnAppointment = ({ currentUser }) => {
 
   const handleScheduling = (event) => {
     event.preventDefault();
-    if (reason !== "" && scheduleDate !== "") {
+    if (reason !== "" && scheduleDate !== "" && chosenPractitioner > -1) {
       const appointmentForm = {
         reason: reason,
         scheduledDate: scheduleDate,

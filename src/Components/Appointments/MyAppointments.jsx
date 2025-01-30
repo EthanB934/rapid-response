@@ -72,55 +72,56 @@ export const MyAppointments = ({ currentUser }) => {
   };
 
   return (
-    <>
+    <div className="list">
       {appointments ? (
         <>
           {appointments.map((appointment) => {
             return (
-              <div key={appointment.id} className="list">
-                <div className="listCard">
-                  <Link className="appointmentLink" to={`/appointments/${appointment.id}`}>
-                    {appointment.reason}
-                  </Link>{" "}
-                  {appointment.scheduledDate}
-                  {!currentUser.isStaff && appointment.completed === true ? (
-                    <>
-                      <button
-                        value={appointment.id}
-                        onClick={handleRemoveAppointment}
-                      >
-                        Remove
-                      </button>
-                      <i className="fa-solid fa-check"></i>
-                    </>
-                  ) : (
-                    " "
-                  )}
-                  {!currentUser.isStaff && appointment.completed === false ? (
-                    <i className="fa-solid fa-x"></i>
-                  ) : (
-                    " "
-                  )}
-                  {currentUser.isStaff && appointment.completed === false ? (
-                    <div>
-                      <button
-                        value={appointment.id}
-                        onClick={handleAppointmentCompletion}
-                      >
-                        Complete
-                      </button>
-                    </div>
-                  ) : (
-                    "This appointment has been completed"
-                  )}
-                </div>
+              <div className="listCard">
+                <Link
+                  className="appointmentLink"
+                  to={`/appointments/${appointment.id}`}
+                >
+                  {appointment.reason}
+                </Link>{" "}
+                {appointment.scheduledDate}{" "}
+                {!currentUser.isStaff && appointment.completed === true ? (
+                  <>
+                    <button
+                      value={appointment.id}
+                      onClick={handleRemoveAppointment}
+                    >
+                      Remove
+                    </button>
+                    <i className="fa-solid fa-check"></i>
+                  </>
+                ) : (
+                  " "
+                )}
+                {!currentUser.isStaff && appointment.completed === false ? (
+                  <i className="fa-solid fa-x"></i>
+                ) : (
+                  " "
+                )}
+                {currentUser.isStaff && appointment.completed === false ? (
+                  <div>
+                    <button
+                      value={appointment.id}
+                      onClick={handleAppointmentCompletion}
+                    >
+                      Complete
+                    </button>
+                  </div>
+                ) : (
+                  "This appointment has not been completed"
+                )}
               </div>
             );
           })}
         </>
       ) : (
-        "Loading..."
+        <>Loading...</>
       )}
-    </>
+    </div>
   );
 };
