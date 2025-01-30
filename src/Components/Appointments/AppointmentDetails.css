@@ -1,6 +1,6 @@
 form {
     height: 100vh;
-    background-color: rgba(0, 255, 255, 0.4);
+    /* background-color: rgba(0, 255, 255, 0.4); */
 }
 
 div.form {
@@ -20,7 +20,18 @@ fieldset.visitorInfo {
     flex-direction: column;
     background-color: lightblue;
 }
+fieldset.bio {
+    display: flex;
+    flex-direction: column;
+    background-color: lightblue;
+}
 fieldset.appointmentInfo {
+    display: flex;
+    flex-direction: column;
+    background-color: lightblue;
+}
+fieldset.practitionerInfo {
+    margin-top: 2rem;
     display: flex;
     flex-direction: column;
     background-color: lightblue;

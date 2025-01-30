@@ -6,7 +6,7 @@ import {
 } from "../../Services/ProfileServices";
 import { getPractitionerByUserId } from "../../Services/PractitionerServices";
 import { useLocation, useNavigate } from "react-router-dom";
-import "./CreateProfile.css"
+import "../Appointments/AppointmentDetails.css";
 export const CreateProfile = ({ currentUser }) => {
   const [genders, setGenders] = useState([]);
   const [practitioner, setPractitioner] = useState({});
@@ -58,32 +58,34 @@ export const CreateProfile = ({ currentUser }) => {
   };
   return (
     <form>
-      <fieldset>
-        <label>Name:</label>{" "}
-        <input
-          type="text"
-          placeholder="Your Name Here"
-          value={practitioner.fullName}
-        />
-        <label>Age: </label> <input type="number" value={practitioner.age} />
-        <label>Gender: </label>{" "}
-        <select value={practitioner.genderId}>
-          <option value="-1">Choose a gender...</option>
-          {genders.map((gender) => {
-            return (
-              <option key={gender.id} value={gender.id}>
-                {gender.gender}
-              </option>
-            );
-          })}
-        </select>
-        <label>Experience: </label>{" "}
-        <input type="number" value={practitioner.experience} />
-      </fieldset>
-      <fieldset>
-        <label>Tell Your Clients About Yourself!</label>{" "}
-        <textarea value={practitionerBio} onChange={profileBio}></textarea>
-      </fieldset>
+      <div className="form">
+        <fieldset className="practitionerInfo">
+          <label>Name:</label>{" "}
+          <input
+            type="text"
+            placeholder="Your Name Here"
+            value={practitioner.fullName}
+          />
+          <label>Age: </label> <input type="number" value={practitioner.age} />
+          <label>Gender: </label>{" "}
+          <select value={practitioner.genderId}>
+            <option value="-1">Choose a gender...</option>
+            {genders.map((gender) => {
+              return (
+                <option key={gender.id} value={gender.id}>
+                  {gender.gender}
+                </option>
+              );
+            })}
+          </select>
+          <label>Experience: </label>{" "}
+          <input type="number" value={practitioner.experience} />
+        </fieldset>
+        <fieldset className="bio">
+          <label>Tell Your Clients About Yourself!</label>{" "}
+          <textarea value={practitionerBio} onChange={profileBio}></textarea>
+        </fieldset>
+      </div>
       {location.state?.type === "edit" ? (
         <button onClick={handleUpdateProfile}>Save Changes to Profile</button>
       ) : (
