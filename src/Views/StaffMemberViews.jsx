@@ -11,13 +11,16 @@ import {
   getProfileByPractitionerId,
 } from "../Services/PractitionerServices";
 import { Welcome } from "../Components/Welcome/Welcome";
+import { UserInfoForm } from "../Components/Welcome/UserInfo";
 
 export const StaffMemberViews = ({ currentUser }) => {
   const [profile, setProfile] = useState({});
+  const [practitioner, setPractitioner] = useState({});
   useEffect(() => {
     getPractitionerByUserId(currentUser.id).then((responseArray) => {
       const practitionerObject = responseArray[0];
-      getProfileByPractitionerId(practitionerObject.id).then(
+      setPractitioner(practitionerObject);
+      getProfileByPractitionerId(practitionerObject?.id).then(
         (responseArray) => {
           const profileObject = responseArray[0];
           setProfile(profileObject);
@@ -32,12 +35,26 @@ export const StaffMemberViews = ({ currentUser }) => {
         path="/"
         element={
           <>
-              <StaffMemberNavigationBar profile={profile} />
+            <StaffMemberNavigationBar profile={profile} />
             <Outlet />
           </>
         }
       >
-        <Route path="/" element={<Welcome />} />
+        {practitioner ? (
+          <>
+            <Route path="/" element={<Welcome />} />
+          </>
+        ) : (
+          <Route
+            path="/"
+            element={
+              <>
+                <Welcome />
+                <UserInfoForm currentUser={currentUser}/>
+              </>
+            }
+          />
+        )}
         <Route
           path="profile"
           element={<CreateProfile currentUser={currentUser} />}
