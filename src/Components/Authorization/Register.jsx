@@ -22,7 +22,7 @@ export const Register = (props) => {
           })
         );
 
-        navigate("/");
+        navigate("/login");
       }
     });
   };
