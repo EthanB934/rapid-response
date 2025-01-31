@@ -53,7 +53,7 @@ export const AppointmentDetails = ({ currentUser }) => {
       {appointment.practitioner ? (
         <>
           <h1>Appointment Details for Appointment #{appointment.id}</h1>
-          <section>
+          <section className="appointmentDetails">
             <p className="details">
               Your have scheduled this appointment for the following reason:{" "}
               {appointment.reason}. You will be meeting with our trusted
@@ -66,7 +66,7 @@ export const AppointmentDetails = ({ currentUser }) => {
               as a doctor.
             </p>
             {!currentUser.isStaff && appointment.completed === true ? (
-              <>
+              <div className="detailsButtons">
                 <label>
                   This appointment was marked as completed on{" "}
                   {appointment.scheduledDate}{" "}
@@ -75,8 +75,13 @@ export const AppointmentDetails = ({ currentUser }) => {
                   This appointment has been completed. We hope the visit went
                   well!
                 </span>
-                <button className="buttons" onClick={handleRemoveAppointment}>Remove</button>
-              </>
+                <button
+                  className="detailsButtons"
+                  onClick={handleRemoveAppointment}
+                >
+                  Remove
+                </button>
+              </div>
             ) : (
               " "
             )}
@@ -88,8 +93,10 @@ export const AppointmentDetails = ({ currentUser }) => {
                 <span>
                   This appointment is still pending. We hope to see you soon!
                 </span>
-                <button className="buttons" onClick={handleRemoveAppointment}>Cancel</button>
-                <button className="buttons"onClick={handleUpdateAppointment}>Update</button>
+                <div className="detailsButtons">
+                  <button onClick={handleRemoveAppointment}>Cancel</button>
+                  <button onClick={handleUpdateAppointment}>Update</button>
+                </div>
               </>
             ) : (
               " "

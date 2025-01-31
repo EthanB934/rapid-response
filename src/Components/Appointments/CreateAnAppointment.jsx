@@ -86,7 +86,7 @@ export const CreateAnAppointment = ({ currentUser }) => {
     <form>
       {visitor ? (
         <>
-          <h1>Create An Appointment</h1>
+          <h1 className="createAppointmentH1">Create An Appointment</h1>
           <div className="form">
             <fieldset className="visitorInfo">
               <label>Your Name</label>
@@ -132,11 +132,15 @@ export const CreateAnAppointment = ({ currentUser }) => {
         </fieldset>
       </div>
       {location.state?.type === "edit" ? (
-        <button className="formButtons" onClick={handleUpdateAppointmentDetails}>
-          Update Appointment Details
-        </button>
+        <div className="formButtons">
+          <button onClick={handleUpdateAppointmentDetails}>
+            Update Appointment Details
+          </button>
+        </div>
       ) : (
-        <button className="formButtons" onClick={handleScheduling}>Schedule Appointment</button>
+        <div className="formButtons">
+          <button onClick={handleScheduling}>Schedule Appointment</button>
+        </div>
       )}
     </form>
   );

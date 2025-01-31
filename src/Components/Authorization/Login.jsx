@@ -31,9 +31,9 @@ export const Login = () => {
 
   return (
     <main className="container-login">
-      <section>
+      <section className="login">
         <form className="form-login" onSubmit={handleLogin}>
-          <h1>Rapid Response</h1>
+          <h1 className="loginH1">Rapid Response</h1>
           <h2>Please sign in</h2>
           <fieldset>
             <div className="form-group">

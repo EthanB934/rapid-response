@@ -39,7 +39,7 @@ export const StaffDetails = ({ currentUser }) => {
   return (
     <>
       {profile?.practitioner ? (
-        <article className="profile">
+        <article className="staffMemberDetails">
           <section className="image">
             {" "}
             <img
@@ -71,11 +71,10 @@ export const StaffDetails = ({ currentUser }) => {
       ) : (
         " "
       )}
-      {currentUser.isStaff ? (
-        " "
-      ) : (
+      {currentUser.isStaff ? " "(
+        ) : (
         <article>
-          <section>
+          <section className="scheduleWith">
             <button onClick={handleScheduleAppointment}>
               Schedule Appointment
             </button>

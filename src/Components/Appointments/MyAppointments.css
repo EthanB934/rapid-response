@@ -1,12 +1,10 @@
-body {
-    display: flex;
-    /* background-color: rgba(0, 255, 255, 0.6); */
-}
 div .list{
     display: flex;
-    flex-direction: column;
-    height: 100vh;
-    /* background-color: rgba(0, 255, 255, 0.4); */
+    flex-direction: row;
+    margin: 0 auto;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 50vw;
 }
 
 div .listCard {
@@ -14,15 +12,13 @@ div .listCard {
     background-color: whitesmoke;
     justify-content: center;
     align-items: center;
-    height: 2rem;
+    height: 2.5rem;
     gap: 2rem;
     margin: 1rem 0; 
 }
 
-.link {
-    color: maroon
-}
-
-button {
-    padding: 0.5rem;
+section.scheduleWith {
+    display: flex;
+    justify-content: center;
+    margin: 2rem;
 }

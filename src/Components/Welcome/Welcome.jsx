@@ -1,7 +1,7 @@
 import "./Welcome.css";
 export const Welcome = () => {
   return (
-    <article>
+    <article className="welcome">
       <header>
         <h1>
           <strong>Welcome to Rapid Response!</strong>

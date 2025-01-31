@@ -1,22 +1,7 @@
-article {
+article.welcome {
     font-size: x-large;
     text-align: center;
-}
-
-strong {
-    display: flex;
     text-decoration: underline;
-    /* background-color: rgba(224, 255, 255, 0.2); */
     color: black;
     flex-wrap: nowrap;
-}
-
-body {
-    display: flex;
-    background-image: url("/src/images/hospital.jpg");
-    min-height: 100vh;
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
+} 
