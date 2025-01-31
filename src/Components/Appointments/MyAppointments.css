@@ -4,15 +4,16 @@ div .list{
     margin: 0 auto;
     justify-content: center;
     flex-wrap: wrap;
-    max-width: 50vw;
+    max-width: 55vw;
 }
 
 div .listCard {
     display: flex;
     background-color: whitesmoke;
-    justify-content: center;
+
     align-items: center;
     height: 2.5rem;
+    width: 50vw;
     gap: 2rem;
     margin: 1rem 0; 
 }
@@ -21,4 +22,8 @@ section.scheduleWith {
     display: flex;
     justify-content: center;
     margin: 2rem;
+}
+
+div.appointmentStatus {
+    margin-left: 1rem;
 }

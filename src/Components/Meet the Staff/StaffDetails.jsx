@@ -60,19 +60,22 @@ export const StaffDetails = ({ currentUser }) => {
           </section>
         </article>
       ) : (
-        <article>{"This staff member does not yet have a profile page"}</article>
+        <article>
+          {"This staff member does not yet have a profile page"}
+        </article>
       )}
       {currentUser.isStaff && currentUser.id === author.userId && profile ? (
         <article>
-          <section>
+          <section className="scheduleWith">
             <button onClick={handleEditProfile}>Edit Profile</button>
           </section>
         </article>
       ) : (
         " "
       )}
-      {currentUser.isStaff ? " "(
-        ) : (
+      {currentUser.isStaff ? (
+        " "
+      ) : (
         <article>
           <section className="scheduleWith">
             <button onClick={handleScheduleAppointment}>

@@ -107,17 +107,19 @@ export const MyAppointments = ({ currentUser }) => {
                   " "
                 )}
                 {currentUser.isStaff && appointment.completed === false ? (
-                  <div>
-                    <button
-                      value={appointment.id}
-                      onClick={handleAppointmentCompletion}
-                    >
-                      Complete
-                    </button>
+                  <>
                     {"This appointment has not been marked as completed"}
-                  </div>
+                    <div className="appointmentStatus">
+                      <button
+                        value={appointment.id}
+                        onClick={handleAppointmentCompletion}
+                      >
+                        Complete
+                      </button>
+                    </div>
+                  </>
                 ) : (
-                  ""
+                  <>{"This appointment has been marked as completed"}</>
                 )}
               </div>
             );

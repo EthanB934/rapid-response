@@ -87,9 +87,13 @@ export const CreateProfile = ({ currentUser }) => {
         </fieldset>
       </div>
       {location.state?.type === "edit" ? (
-        <button onClick={handleUpdateProfile}>Save Changes to Profile</button>
+        <div className="formButtons">
+          <button onClick={handleUpdateProfile}>Save Changes to Profile</button>
+        </div>
       ) : (
-        <button onClick={handleCreateProfile}>Create Profile</button>
+        <div className="formButtons">
+          <button onClick={handleCreateProfile}>Create Profile</button>
+        </div>
       )}
     </form>
   );
