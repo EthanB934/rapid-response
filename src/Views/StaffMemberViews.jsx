@@ -40,21 +40,16 @@ export const StaffMemberViews = ({ currentUser }) => {
           </>
         }
       >
-        {practitioner ? (
-          <>
-            <Route path="/" element={<Welcome />} />
-          </>
-        ) : (
-          <Route
-            path="/"
-            element={
-              <>
-                <Welcome />
-                <UserInfoForm currentUser={currentUser}/>
-              </>
-            }
-          />
-        )}
+        <Route path="/" element={<Welcome />} />
+        <Route
+          path="userinfo"
+          element={
+            <>
+              <Welcome />
+              <UserInfoForm currentUser={currentUser} />
+            </>
+          }
+        />
         <Route
           path="profile"
           element={<CreateProfile currentUser={currentUser} />}

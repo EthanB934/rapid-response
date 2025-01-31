@@ -1,19 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { getUserByEmail } from "../../Services/UserServices";
+import { getUserRoleByUserId } from "../../Services/UserServices";
 
 export const Login = () => {
   const [email, set] = useState("");
+  const [user, setUser] = useState({});
+  const [determinedRoleUser, setDeterminedRoleUser] = useState({});
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      getUserRoleByUserId(user.id).then((responseArray) => {
+        setDeterminedRoleUser(responseArray);
+      });
+    }
+  }, [user]);
 
   const handleLogin = (e) => {
     e.preventDefault();
-
     getUserByEmail(email).then((foundUsers) => {
       if (foundUsers.length === 1) {
         const user = foundUsers[0];
+        setUser(user);
         localStorage.setItem(
           "rapidResponse_user",
           JSON.stringify({
@@ -21,11 +32,19 @@ export const Login = () => {
             isStaff: user.isStaff,
           })
         );
-
-        navigate("/");
-      } else {
-        window.alert("Invalid login");
       }
+      if (
+        determinedRoleUser.visitors?.length === 1 ||
+        determinedRoleUser.practitioners?.length === 1
+      ) {
+        navigate("/");
+      }
+      else if (determinedRoleUser.isStaff) {
+        navigate("/userinfo");
+      }
+      // else {
+      //   window.alert("Invalid login");
+      // }
     });
   };
 
@@ -55,9 +74,9 @@ export const Login = () => {
               </button>
             </div>
           </fieldset>
-      <section>
-        <Link to="/register">Not a member yet?</Link>
-      </section>
+          <section>
+            <Link to="/register">Not a member yet?</Link>
+          </section>
         </form>
       </section>
     </main>

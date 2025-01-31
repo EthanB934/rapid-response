@@ -19,3 +19,8 @@ export const getVisitorByUserId = async (userId) => {
     (res) => res.json()
   );
 };
+export const getUserRoleByUserId = async (userId) => {
+  return await fetch(`http://localhost:8088/users/${userId}?_embed=visitors&_embed=practitioners`).then(
+    (res) => res.json()
+  );
+};

@@ -1,21 +1,26 @@
-div .list{
+div.list{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin: 0 auto;
-    justify-content: center;
+    justify-content: space-evenly;
     flex-wrap: wrap;
-    max-width: 55vw;
+    background-color: white;
+    max-width: 100vw;
+    margin-top: 2rem;
 }
 
-div .listCard {
+div.listCard {
     display: flex;
     background-color: whitesmoke;
-
-    align-items: center;
+    justify-content: center;
     height: 2.5rem;
-    width: 50vw;
     gap: 2rem;
     margin: 1rem 0; 
+
+}
+
+div i {
+   font-size: xx-large; 
 }
 
 section.scheduleWith {
@@ -26,4 +31,9 @@ section.scheduleWith {
 
 div.appointmentStatus {
     margin-left: 1rem;
+}
+
+.fa-solid.fa-trash {
+    font-size: x-small;
+    height: 2rem;
 }

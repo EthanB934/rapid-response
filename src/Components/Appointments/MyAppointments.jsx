@@ -72,62 +72,63 @@ export const MyAppointments = ({ currentUser }) => {
   };
 
   return (
-    <div className="list">
-      {appointments ? (
-        <>
-          {appointments.map((appointment) => {
-            return (
-              <div className="listCard">
-                <Link className="ink" to={`/appointments/${appointment.id}`}>
-                  {appointment.reason}
-                </Link>{" "}
-                {appointment.scheduledDate}{" "}
-                {!currentUser.isStaff && appointment.completed === true ? (
-                  <>
-                    <div>
-                      <i className="fa-solid fa-check"></i>{" "}
-                      {"This appointment has been marked as completed"}
-                    </div>
-                    <button
-                      value={appointment.id}
-                      onClick={handleRemoveAppointment}
-                    >
-                      Remove
-                    </button>
-                  </>
-                ) : (
-                  " "
-                )}
-                {!currentUser.isStaff && appointment.completed === false ? (
-                  <div>
-                    <i className="fa-solid fa-x"></i>{" "}
-                    {"This appointment has not been marked as completed"}
-                  </div>
-                ) : (
-                  " "
-                )}
-                {currentUser.isStaff && appointment.completed === false ? (
-                  <>
-                    {"This appointment has not been marked as completed"}
-                    <div className="appointmentStatus">
+    <section className="list">
+      <div className="list list2">
+        {appointments ? (
+          <>
+            {appointments.map((appointment) => {
+              return (
+                <div className="listCard">
+                  <Link className="ink" to={`/appointments/${appointment.id}`}>
+                    {appointment.reason}
+                  </Link>{" "}
+                  {appointment.scheduledDate}{" "}
+                  {!currentUser.isStaff && appointment.completed === true ? (
+                    <>
+                      <div>
+                        <i className="fa-solid fa-check"></i>{" "}
+                        {/* {"This appointment has been marked as completed"} */}
+                      </div>
                       <button
+                        className="fa-solid fa-trash"
                         value={appointment.id}
-                        onClick={handleAppointmentCompletion}
-                      >
-                        Complete
-                      </button>
+                        onClick={handleRemoveAppointment}
+                      ></button>
+                    </>
+                  ) : (
+                    " "
+                  )}
+                  {!currentUser.isStaff && appointment.completed === false ? (
+                    <div>
+                      <i className="fa-solid fa-x"></i>{" "}
+                      {/* {"This appointment has not been marked as completed"} */}
                     </div>
-                  </>
-                ) : (
-                  <>{"This appointment has been marked as completed"}</>
-                )}
-              </div>
-            );
-          })}
-        </>
-      ) : (
-        <>Loading...</>
-      )}
-    </div>
+                  ) : (
+                    " "
+                  )}
+                  {currentUser.isStaff && appointment.completed === false ? (
+                    <>
+                      {"This appointment has not been marked as completed"}
+                      <div className="appointmentStatus">
+                        <button
+                          value={appointment.id}
+                          onClick={handleAppointmentCompletion}
+                        >
+                          Complete
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <>{"This appointment has been marked as completed"}</>
+                  )}
+                </div>
+              );
+            })}
+          </>
+        ) : (
+          <>Loading...</>
+        )}
+      </div>
+    </section>
   );
 };
