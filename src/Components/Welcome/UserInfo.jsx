@@ -31,15 +31,23 @@ export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
   };
   const handleCreateUserInfo = (event) => {
     event.preventDefault();
-    const userInfoForm = {
-      fullName: practitionerName,
-      age: practitionerAge,
-      genderId: practitionerGenderId,
-      practice: [practitionerPractice],
-      experience: practitionerExperience,
-      userId: currentUser.id,
-    };
-    createNewPractitioner(userInfoForm).then(navigate("/"));
+    if (
+      (practitionerName !== "",
+      practitionerAge !== 0,
+      practitionerGenderId !== -1,
+      practitionerPractice.length !== 0,
+      practitionerExperience !== 0)
+    ) {
+      const userInfoForm = {
+        fullName: practitionerName,
+        age: practitionerAge,
+        genderId: practitionerGenderId,
+        practice: [practitionerPractice],
+        experience: practitionerExperience,
+        userId: currentUser.id,
+      };
+      createNewPractitioner(userInfoForm).then(navigate("/"));
+    }
   };
   return (
     <form>
@@ -118,7 +126,8 @@ export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
                 <p>
                   Hello, new visitor. Please, fill out this form. This
                   information will be used when creating an appointment. It will
-                  be viewed by our practitioners, but will not be visible to our other visitors.
+                  be viewed by our practitioners, but will not be visible to our
+                  other visitors.
                 </p>
                 <label>Name:</label>{" "}
                 <input
