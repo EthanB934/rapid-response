@@ -3,10 +3,12 @@ import "../Appointments/AppointmentDetails.css";
 import { getAllGenders } from "../../Services/ProfileServices";
 import { createNewPractitioner } from "../../Services/PractitionerServices";
 import { useNavigate } from "react-router-dom";
+import { createNewVisitor } from "../../Services/VisitorServices";
 export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
-  const [practitionerName, setPractitionerName] = useState("");
+  const [name, setName] = useState("");
   const [practitionerAge, setPractitionerAge] = useState("");
-  const [practitionerGenderId, setPractitionerGenderId] = useState(0);
+  const [visitorDateOfBirth, setVisitorDateOfBirth] = useState("");
+  const [genderId, setGenderId] = useState(0);
   const [practitionerExperience, setPractitionerExperience] = useState(0);
   const [practitionerPractice, setPractitionerPractice] = useState("");
   const [genders, setGenders] = useState([]);
@@ -14,14 +16,17 @@ export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
   useEffect(() => {
     getAllGenders().then((gendersArray) => setGenders(gendersArray));
   }, []);
-  const handlePractitionerName = (event) => {
-    setPractitionerName(event.target.value);
+  const handleName = (event) => {
+    setName(event.target.value);
   };
   const handlePractitionerAge = (event) => {
     setPractitionerAge(event.target.value);
   };
-  const handlePractitionerGenderId = (event) => {
-    setPractitionerGenderId(event.target.value);
+  const handleVisitorDateOfBirth = (event) => {
+    setVisitorDateOfBirth(event.target.value);
+  };
+  const handleGenderId = (event) => {
+    setGenderId(event.target.value);
   };
   const handlePractitionerExperience = (event) => {
     setPractitionerExperience(event.target.value);
@@ -29,24 +34,44 @@ export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
   const handlePractitionerPractices = (event) => {
     setPractitionerPractice(event.target.value);
   };
-  const handleCreateUserInfo = (event) => {
+  const handleCreatePractitionerInfo = (event) => {
     event.preventDefault();
     if (
-      (practitionerName !== "",
+      (name !== "",
       practitionerAge !== 0,
-      practitionerGenderId !== -1,
+      genderId !== -1,
       practitionerPractice.length !== 0,
       practitionerExperience !== 0)
     ) {
       const userInfoForm = {
-        fullName: practitionerName,
+        fullName: name,
         age: practitionerAge,
-        genderId: practitionerGenderId,
+        genderId: genderId,
         practice: [practitionerPractice],
         experience: practitionerExperience,
         userId: currentUser.id,
       };
+      // console.log(userInfoForm)
       createNewPractitioner(userInfoForm).then(navigate("/"));
+    }
+    else {
+      window.alert(`Please, ensure that all required fields are filled out.`)
+    }
+  };
+  const handleCreateVisitorInfo = (event) => {
+    event.preventDefault();
+    if ((name !== "" && visitorDateOfBirth !== "" && genderId !== -1)) {
+      const userInfoForm = {
+        fullName: name,
+        dateOfBirth: visitorDateOfBirth,
+        genderId: genderId,
+        userId: currentUser.id,
+      };
+      // console.log(userInfoForm)
+      createNewVisitor(userInfoForm).then(navigate("/"));
+    }
+    else {
+      window.alert(`Please, ensure that all required fields are filled out.`)
     }
   };
   return (
@@ -67,8 +92,8 @@ export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
                 <input
                   type="text"
                   placeholder="Your Full Name Here"
-                  value={practitionerName}
-                  onChange={handlePractitionerName}
+                  value={name}
+                  onChange={handleName}
                 />
                 <label>Age: </label>{" "}
                 <input
@@ -78,10 +103,7 @@ export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
                   onChange={handlePractitionerAge}
                 />
                 <label>Gender: </label>{" "}
-                <select
-                  value={practitionerGenderId}
-                  onChange={handlePractitionerGenderId}
-                >
+                <select value={genderId} onChange={handleGenderId}>
                   <option value="-1">Choose a gender...</option>
                   {genders.map((gender) => {
                     return (
@@ -107,7 +129,9 @@ export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
                 />
               </fieldset>
               <div className="formButtons">
-                <button onClick={handleCreateUserInfo}>Save Data</button>
+                <button onClick={handleCreatePractitionerInfo}>
+                  Save Data
+                </button>
               </div>
             </div>
           )}
@@ -133,21 +157,18 @@ export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
                 <input
                   type="text"
                   placeholder="Your Full Name Here"
-                  value={practitionerName}
-                  onChange={handlePractitionerName}
+                  value={name}
+                  onChange={handleName}
                 />
-                <label>Age: </label>{" "}
+                <label>Date of Birth: </label>{" "}
                 <input
-                  type="number"
-                  value={practitionerAge}
+                  type="month"
+                  value={visitorDateOfBirth}
                   min="0"
-                  onChange={handlePractitionerAge}
+                  onChange={handleVisitorDateOfBirth}
                 />
                 <label>Gender: </label>{" "}
-                <select
-                  value={practitionerGenderId}
-                  onChange={handlePractitionerGenderId}
-                >
+                <select value={genderId} onChange={handleGenderId}>
                   <option value="-1">Choose a gender...</option>
                   {genders.map((gender) => {
                     return (
@@ -157,23 +178,9 @@ export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
                     );
                   })}
                 </select>
-                <label>Practice(s):</label>{" "}
-                <input
-                  type="text"
-                  placeholder="The Name of the Practice(s)"
-                  value={practitionerPractice}
-                  onChange={handlePractitionerPractices}
-                />
-                <label>Experience: </label>{" "}
-                <input
-                  type="number"
-                  value={practitionerExperience}
-                  min="0"
-                  onChange={handlePractitionerExperience}
-                />
               </fieldset>
               <div className="formButtons">
-                <button onClick={handleCreateUserInfo}>Save Data</button>
+                <button onClick={handleCreateVisitorInfo}>Save Data</button>
               </div>
             </div>
           )}
