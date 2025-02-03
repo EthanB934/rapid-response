@@ -33,19 +33,21 @@ export const Login = () => {
           })
         );
       }
-      if (
-        determinedRoleUser.visitors?.length === 1 ||
-        determinedRoleUser.practitioners?.length === 1
-      ) {
-        navigate("/");
-      }
-      else if (determinedRoleUser.isStaff) {
-        navigate("/userinfo");
-      }
-      // else {
-      //   window.alert("Invalid login");
-      // }
     });
+    if (
+      determinedRoleUser.visitors?.length === 1 ||
+      determinedRoleUser.practitioners?.length === 1
+    ) {
+      navigate("/");
+    } else if (
+      determinedRoleUser.visitors?.length === 0 ||
+      !determinedRoleUser.practitioners?.length === 0
+    ) {
+      navigate("/userinfo");
+    } 
+    // else {
+    //   window.alert("Invalid login");
+    // }
   };
 
   return (

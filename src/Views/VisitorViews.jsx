@@ -6,8 +6,19 @@ import { AppointmentDetails } from "../Components/Appointments/AppointmentDetail
 import { MeetTheStaff } from "../Components/Meet the Staff/MeetTheStaff";
 import { StaffDetails } from "../Components/Meet the Staff/StaffDetails";
 import { Welcome } from "../Components/Welcome/Welcome";
+import { UserInfoForm } from "../Components/Welcome/UserInfo";
+import { useEffect, useState } from "react";
+import { getVisitorByUserId } from "../Services/UserServices";
 
 export const VisitorViews = ({ currentUser }) => {
+  const [visitor, setVisitor] = useState({});
+  useEffect(() => {
+    getVisitorByUserId(currentUser.id).then((responseArray) => {
+      const visitorObject = responseArray[0];
+      setVisitor(visitorObject);
+    });
+  }, [currentUser]);
+
   return (
     <Routes>
       <Route
@@ -20,6 +31,15 @@ export const VisitorViews = ({ currentUser }) => {
         }
       >
         <Route path="/" element={<Welcome />} />
+        <Route
+          path="userinfo"
+          element={
+            <>
+              <Welcome />
+              <UserInfoForm visitor={visitor} currentUser={currentUser} />
+            </>
+          }
+        />
         <Route
           path="create"
           element={<CreateAnAppointment currentUser={currentUser} />}
@@ -39,7 +59,10 @@ export const VisitorViews = ({ currentUser }) => {
         </Route>
         <Route path="meetthestaff">
           <Route index element={<MeetTheStaff />} />
-          <Route path=":practitionerId" element={<StaffDetails currentUser={currentUser} />} />
+          <Route
+            path=":practitionerId"
+            element={<StaffDetails currentUser={currentUser} />}
+          />
         </Route>
       </Route>
     </Routes>

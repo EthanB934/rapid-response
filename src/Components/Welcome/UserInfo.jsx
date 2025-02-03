@@ -3,7 +3,7 @@ import "../Appointments/AppointmentDetails.css";
 import { getAllGenders } from "../../Services/ProfileServices";
 import { createNewPractitioner } from "../../Services/PractitionerServices";
 import { useNavigate } from "react-router-dom";
-export const UserInfoForm = ({ currentUser }) => {
+export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
   const [practitionerName, setPractitionerName] = useState("");
   const [practitionerAge, setPractitionerAge] = useState("");
   const [practitionerGenderId, setPractitionerGenderId] = useState(0);
@@ -43,55 +43,135 @@ export const UserInfoForm = ({ currentUser }) => {
   };
   return (
     <form>
-      <div className="form">
-        <fieldset className="practitionerInfo">
-          <label>Name:</label>{" "}
-          <input
-            type="text"
-            placeholder="Your Full Name Here"
-            value={practitionerName}
-            onChange={handlePractitionerName}
-          />
-          <label>Age: </label>{" "}
-          <input
-            type="number"
-            value={practitionerAge}
-            min="0"
-            onChange={handlePractitionerAge}
-          />
-          <label>Gender: </label>{" "}
-          <select
-            value={practitionerGenderId}
-            onChange={handlePractitionerGenderId}
-          >
-            <option value="-1">Choose a gender...</option>
-            {genders.map((gender) => {
-              return (
-                <option key={gender.id} value={gender.id}>
-                  {gender.gender}
-                </option>
-              );
-            })}
-          </select>
-          <label>Practice(s):</label>{" "}
-          <input
-            type="text"
-            placeholder="The Name of the Practice(s)"
-            value={practitionerPractice}
-            onChange={handlePractitionerPractices}
-          />
-          <label>Experience: </label>{" "}
-          <input
-            type="number"
-            value={practitionerExperience}
-            min="0"
-            onChange={handlePractitionerExperience}
-          />
-        </fieldset>
-        <div className="formButtons">
-          <button onClick={handleCreateUserInfo}>Save Data</button>
-        </div>
-      </div>
+      {currentUser.isStaff ? (
+        <>
+          {practitioner ? (
+            " "
+          ) : (
+            <div className="form">
+              <fieldset className="practitionerInfo">
+                <p>
+                  Hello, new practitioner. Please, fill out this form. This
+                  information will be used when creating your profile. It will
+                  be viewed by our visitors, and other staff members.
+                </p>
+                <label>Name:</label>{" "}
+                <input
+                  type="text"
+                  placeholder="Your Full Name Here"
+                  value={practitionerName}
+                  onChange={handlePractitionerName}
+                />
+                <label>Age: </label>{" "}
+                <input
+                  type="number"
+                  value={practitionerAge}
+                  min="0"
+                  onChange={handlePractitionerAge}
+                />
+                <label>Gender: </label>{" "}
+                <select
+                  value={practitionerGenderId}
+                  onChange={handlePractitionerGenderId}
+                >
+                  <option value="-1">Choose a gender...</option>
+                  {genders.map((gender) => {
+                    return (
+                      <option key={gender.id} value={gender.id}>
+                        {gender.gender}
+                      </option>
+                    );
+                  })}
+                </select>
+                <label>Practice(s):</label>{" "}
+                <input
+                  type="text"
+                  placeholder="The Name of the Practice(s)"
+                  value={practitionerPractice}
+                  onChange={handlePractitionerPractices}
+                />
+                <label>Experience: </label>{" "}
+                <input
+                  type="number"
+                  value={practitionerExperience}
+                  min="0"
+                  onChange={handlePractitionerExperience}
+                />
+              </fieldset>
+              <div className="formButtons">
+                <button onClick={handleCreateUserInfo}>Save Data</button>
+              </div>
+            </div>
+          )}
+        </>
+      ) : (
+        ""
+      )}
+      {!currentUser.isStaff ? (
+        <>
+          {visitor ? (
+            // navigate("/")
+            " "
+          ) : (
+            <div className="form">
+              <fieldset className="practitionerInfo">
+                <p>
+                  Hello, new visitor. Please, fill out this form. This
+                  information will be used when creating an appointment. It will
+                  be viewed by our practitioners, but will not be visible to our other visitors.
+                </p>
+                <label>Name:</label>{" "}
+                <input
+                  type="text"
+                  placeholder="Your Full Name Here"
+                  value={practitionerName}
+                  onChange={handlePractitionerName}
+                />
+                <label>Age: </label>{" "}
+                <input
+                  type="number"
+                  value={practitionerAge}
+                  min="0"
+                  onChange={handlePractitionerAge}
+                />
+                <label>Gender: </label>{" "}
+                <select
+                  value={practitionerGenderId}
+                  onChange={handlePractitionerGenderId}
+                >
+                  <option value="-1">Choose a gender...</option>
+                  {genders.map((gender) => {
+                    return (
+                      <option key={gender.id} value={gender.id}>
+                        {gender.gender}
+                      </option>
+                    );
+                  })}
+                </select>
+                <label>Practice(s):</label>{" "}
+                <input
+                  type="text"
+                  placeholder="The Name of the Practice(s)"
+                  value={practitionerPractice}
+                  onChange={handlePractitionerPractices}
+                />
+                <label>Experience: </label>{" "}
+                <input
+                  type="number"
+                  value={practitionerExperience}
+                  min="0"
+                  onChange={handlePractitionerExperience}
+                />
+              </fieldset>
+              <div className="formButtons">
+                <button onClick={handleCreateUserInfo}>Save Data</button>
+              </div>
+            </div>
+          )}
+        </>
+      ) : (
+        ""
+      )}
     </form>
   );
 };

@@ -26,7 +26,7 @@ export const StaffMemberViews = ({ currentUser }) => {
           setProfile(profileObject);
         }
       );
-    });
+    }); 
   }, [currentUser]);
 
   return (
@@ -46,7 +46,7 @@ export const StaffMemberViews = ({ currentUser }) => {
           element={
             <>
               <Welcome />
-              <UserInfoForm currentUser={currentUser} />
+              <UserInfoForm practitioner={practitioner}  currentUser={currentUser} />
             </>
           }
         />
