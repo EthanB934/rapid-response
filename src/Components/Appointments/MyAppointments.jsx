@@ -87,7 +87,7 @@ export const MyAppointments = ({ currentUser }) => {
                     <>
                       <div>
                         <i className="fa-solid fa-check"></i>{" "}
-                        {/* {"This appointment has been marked as completed"} */}
+                        {"This appointment has been marked as completed"}
                       </div>
                       <button
                         className="fa-solid fa-trash"
@@ -96,15 +96,10 @@ export const MyAppointments = ({ currentUser }) => {
                       ></button>
                     </>
                   ) : (
-                    " "
-                  )}
-                  {!currentUser.isStaff && appointment.completed === false ? (
-                    <div>
-                      <i className="fa-solid fa-x"></i>{" "}
-                      {/* {"This appointment has not been marked as completed"} */}
-                    </div>
-                  ) : (
-                    " "
+                    <>
+                    <i className="fa-solid fa-x"></i>{" "}
+                    {"This appointment has not been marked as completed"}
+                    </>
                   )}
                   {currentUser.isStaff && appointment.completed === false ? (
                     <>
@@ -119,7 +114,7 @@ export const MyAppointments = ({ currentUser }) => {
                       </div>
                     </>
                   ) : (
-                    <>{"This appointment has been marked as completed"}</>
+                    " "
                   )}
                 </div>
               );
