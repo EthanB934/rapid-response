@@ -5,11 +5,14 @@ import {
   scheduleAppointment,
   updateAppointmentDetails,
 } from "../../Services/AppointmentServices";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useFetcher, useLocation, useNavigate } from "react-router-dom";
 import "./AppointmentDetails.css";
+import { getAllGenders } from "../../Services/ProfileServices";
 export const CreateAnAppointment = ({ currentUser }) => {
   const [visitor, setVisitor] = useState({});
   const [reason, setReason] = useState("");
+  const [allGenders, setAllGenders] = useState([]);
+  const [gender, setGender] = useState("");
   const [scheduleDate, setScheduleDate] = useState("");
   const [practitioners, setAllPractitioners] = useState([]);
   const [chosenPractitioner, setChosenPractitioner] = useState(-1);
@@ -41,6 +44,17 @@ export const CreateAnAppointment = ({ currentUser }) => {
       setAllPractitioners(practitionersArray)
     );
   }, []);
+  useEffect(() => {
+    getAllGenders().then((responseArray) => setAllGenders(responseArray));
+  }, []);
+  useEffect(() => {
+    if (visitor) {
+      const visitorGender = allGenders.find(
+        (gender) => gender.id === visitor.genderId
+      );
+      setGender(visitorGender?.gender);
+    }
+  }, [visitor, allGenders]);
   //   console.log(visitor);
   const handleReasonChange = (event) => {
     setReason(event.target.value);
@@ -94,7 +108,7 @@ export const CreateAnAppointment = ({ currentUser }) => {
               <label>Your Date of Birth</label>
               <input type="text" value={visitor.dateOfBirth} />
               <label>Your Gender</label>
-              <input type="text" value={visitor.genderId} />
+              <input type="text" value={gender} />
             </fieldset>
           </div>
         </>
