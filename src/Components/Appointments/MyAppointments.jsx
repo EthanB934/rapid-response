@@ -111,14 +111,14 @@ export const MyAppointments = ({ currentUser }) => {
 
   return (
     <section className="list">
-      <input type="month" value={date} onChange={handleDateChange} />
+      <input className="filterByDate" type="month" value={date} onChange={handleDateChange} />
       <div className="list list2">
         {/* Waits for associated appointments relevant to current user to load. */}
         {filteredAppointments.length > 0 ? (
           <>
             {filteredAppointments.map((appointment) => {
               return (
-                <div className="listCard">
+                <div className="listCard" key={appointment.id}>
                   {/* Link associated with each appointment reason. Redirects user to that appointment's details. */}
                   <Link className="link" to={`/appointments/${appointment.id}`}>
                     {appointment.reason}

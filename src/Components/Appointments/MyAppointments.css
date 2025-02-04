@@ -29,6 +29,14 @@ section.scheduleWith {
     margin: 2rem;
 }
 
+input.filterByDate {
+    display: flex;
+    width: 50vw;
+    justify-content: center;
+    text-align: center;
+    margin: 1rem auto;
+}
+
 div.appointmentStatus {
     margin-left: 1rem;
 }
