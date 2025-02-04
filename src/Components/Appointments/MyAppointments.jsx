@@ -11,8 +11,9 @@ import { getPractitionerByUserId } from "../../Services/PractitionerServices";
 import "./MyAppointments.css";
 export const MyAppointments = ({ currentUser }) => {
   const [appointments, setAppointments] = useState([]);
+  const [filteredAppointments, setFilteredAppointments] = useState([]);
   const [visitor, setVisitor] = useState({});
-  const [appointmentStatus, setAppointmentStatus] = useState(false);
+  const [date, setDate] = useState("");
   // Visitors and Practitioners require this component. Filters appointments for specific user and their role.
   useEffect(() => {
     if (!currentUser.isStaff) {
@@ -30,6 +31,11 @@ export const MyAppointments = ({ currentUser }) => {
   }, [currentUser]);
   // UseEffect sets state variable, visitor; a generic variable that can represent either a visitor or a practitioner
 
+  useEffect(() => {
+    getAndSetAppointments();
+  }, [visitor]);
+  // useEffect observes visitor state variable. Runs when state changes.
+
   // Get and Set function definition that sets state variable
   const getAndSetAppointments = () => {
     // Depends on boolean value
@@ -45,11 +51,32 @@ export const MyAppointments = ({ currentUser }) => {
       });
     }
   };
+  const findDate = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const formattedDate = `${year.toString()}-0${month.toString()}`;
+    setDate(formattedDate);
+  };
 
   useEffect(() => {
-    getAndSetAppointments();
-  }, [visitor]);
-  // useEffect observes visitor state variable. Runs when state changes.
+    findDate();
+  }, []);
+
+  useEffect(() => {
+    const appointmentDates = appointments.filter((appointment) => {
+      const searchTerms = date;
+      const indexOf = appointment.scheduledDate.indexOf(searchTerms);
+      if (indexOf === 0) {
+        return appointment;
+      }
+    });
+    setFilteredAppointments(appointmentDates);
+  }, [appointments, date]);
+
+  const handleDateChange = (event) => {
+    setDate(event.target.value);
+  };
 
   // Visible only to visitors
   // When an appointment's status is complete, this function is associated with the rendered button.
@@ -84,11 +111,12 @@ export const MyAppointments = ({ currentUser }) => {
 
   return (
     <section className="list">
+      <input type="month" value={date} onChange={handleDateChange} />
       <div className="list list2">
         {/* Waits for associated appointments relevant to current user to load. */}
-        {appointments ? (
+        {filteredAppointments.length > 0 ? (
           <>
-            {appointments.map((appointment) => {
+            {filteredAppointments.map((appointment) => {
               return (
                 <div className="listCard">
                   {/* Link associated with each appointment reason. Redirects user to that appointment's details. */}
@@ -148,7 +176,7 @@ export const MyAppointments = ({ currentUser }) => {
           </>
         ) : (
           // Fallback if appointments has not yet loaded, virtually unseen.
-          <>Loading...</>
+          <div className="listCard">There are no appointments at this time</div>
         )}
       </div>
     </section>
