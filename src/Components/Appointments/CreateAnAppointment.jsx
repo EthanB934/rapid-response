@@ -50,7 +50,7 @@ export const CreateAnAppointment = ({ currentUser }) => {
   useEffect(() => {
     if (visitor) {
       const visitorGender = allGenders.find(
-        (gender) => gender.id === visitor.genderId
+        (gender) => gender.id === parseInt(visitor.genderId)
       );
       setGender(visitorGender?.gender);
     }

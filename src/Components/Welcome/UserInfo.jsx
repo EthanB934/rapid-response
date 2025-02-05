@@ -11,7 +11,7 @@ export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
   const [name, setName] = useState("");
   const [practitionerAge, setPractitionerAge] = useState("");
   const [visitorDateOfBirth, setVisitorDateOfBirth] = useState("");
-  const [genderId, setGenderId] = useState(0);
+  const [genderId, setGenderId] = useState(-1);
   const [practitionerExperience, setPractitionerExperience] = useState(0);
   const [practices, setPractices] = useState(0);
   const [practitionerPractice, setPractitionerPractice] = useState(-1);
