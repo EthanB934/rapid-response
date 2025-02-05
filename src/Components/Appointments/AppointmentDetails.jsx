@@ -5,10 +5,11 @@ import {
   removeAppointment,
 } from "../../Services/AppointmentServices";
 import { getVisitorByUserId } from "../../Services/UserServices";
-import { getPractitionerByUserId } from "../../Services/PractitionerServices";
+import { getAllPractices, getPractitionerByUserId } from "../../Services/PractitionerServices";
 import "../Meet the Staff/MeetTheStaff.css";
 export const AppointmentDetails = ({ currentUser }) => {
   const [appointment, setAppointment] = useState({});
+  const [allPractices, setAllPractices] = useState([]);
   const [visitor, setVisitor] = useState({});
   const { appointmentId } = useParams();
   const navigate = useNavigate();
@@ -20,6 +21,9 @@ export const AppointmentDetails = ({ currentUser }) => {
     });
   }, [appointmentId]);
 
+  useEffect(() => {
+    getAllPractices().then((practicesArray) => setAllPractices(practicesArray))
+  }, [appointment])
   useEffect(() => {
     if (!currentUser.isStaff) {
       getVisitorByUserId(currentUser.id).then((responseArray) => {
@@ -59,8 +63,9 @@ export const AppointmentDetails = ({ currentUser }) => {
               {appointment.reason}. You will be meeting with our trusted
               clinical expert {appointment.practitioner.fullName}. Doctor{" "}
               {appointment.practitioner.fullName} practices{" "}
-              {appointment.practitioner.practice.map((practice) => {
-                return <>{practice}</>;
+              {allPractices.map((practice) => {
+                if(practice.id === parseInt(appointment.practitioner.practiceId))
+                return <>{practice.practice}</>;
               })}
               . He has {appointment.practitioner.experience} years of experience
               as a doctor.
