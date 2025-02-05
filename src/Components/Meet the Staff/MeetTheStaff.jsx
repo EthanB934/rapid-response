@@ -33,7 +33,7 @@ export const MeetTheStaff = () => {
               {practitioner.fullName}
             </Link>
             {practices.map((practice) => {
-              if (practice.id === practitioner.practiceId) {
+              if (practice.id === parseInt(practitioner.practiceId)) {
                 return <>Practices {practice.practice}</>;
               }
             })}{" "}

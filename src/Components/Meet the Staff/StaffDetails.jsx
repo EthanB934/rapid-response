@@ -34,7 +34,7 @@ export const StaffDetails = ({ currentUser }) => {
 
   useEffect(() => {
     const practitionerPractices = practices.filter(
-      (practice) => practice.id === author.practiceId
+      (practice) => practice.id === parseInt(author.practiceId)
     );
     setPractitionerPractices(practitionerPractices);
   }, [author, practices]);
@@ -72,7 +72,7 @@ export const StaffDetails = ({ currentUser }) => {
                 );
               })}
               Here is a little bit about me, outside of work. 
-              <br/><div className="bio">{profile.bio}</div>
+              <br/>{profile.bio}
             </p>
           </section>
         </article>

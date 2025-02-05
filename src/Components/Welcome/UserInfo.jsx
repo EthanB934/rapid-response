@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import "../Appointments/AppointmentDetails.css";
 import { getAllGenders } from "../../Services/ProfileServices";
-import { createNewPractitioner } from "../../Services/PractitionerServices";
+import {
+  createNewPractitioner,
+  getAllPractices,
+} from "../../Services/PractitionerServices";
 import { useNavigate } from "react-router-dom";
 import { createNewVisitor } from "../../Services/VisitorServices";
 export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
@@ -10,11 +13,15 @@ export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
   const [visitorDateOfBirth, setVisitorDateOfBirth] = useState("");
   const [genderId, setGenderId] = useState(0);
   const [practitionerExperience, setPractitionerExperience] = useState(0);
-  const [practitionerPractice, setPractitionerPractice] = useState("");
+  const [practices, setPractices] = useState(0);
+  const [practitionerPractice, setPractitionerPractice] = useState(-1);
   const [genders, setGenders] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
     getAllGenders().then((gendersArray) => setGenders(gendersArray));
+  }, []);
+  useEffect(() => {
+    getAllPractices().then((practicesArray) => setPractices(practicesArray));
   }, []);
   const handleName = (event) => {
     setName(event.target.value);
@@ -31,36 +38,35 @@ export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
   const handlePractitionerExperience = (event) => {
     setPractitionerExperience(event.target.value);
   };
-  const handlePractitionerPractices = (event) => {
+  const handlePracticeSelect = (event) => {
     setPractitionerPractice(event.target.value);
   };
   const handleCreatePractitionerInfo = (event) => {
     event.preventDefault();
     if (
-      (name !== "",
-      practitionerAge !== 0,
-      genderId !== -1,
-      practitionerPractice.length !== 0,
+      (name !== "" &&
+      practitionerAge !== 0 &&
+      genderId !== -1 &&
+      practitionerPractice >= 0 &&
       practitionerExperience !== 0)
     ) {
       const userInfoForm = {
         fullName: name,
         age: practitionerAge,
         genderId: genderId,
-        practice: [practitionerPractice],
+        practiceId: practitionerPractice,
         experience: practitionerExperience,
         userId: currentUser.id,
       };
       // console.log(userInfoForm)
       createNewPractitioner(userInfoForm).then(navigate("/"));
-    }
-    else {
-      window.alert(`Please, ensure that all required fields are filled out.`)
+    } else {
+      window.alert(`Please, ensure that all required fields are filled out.`);
     }
   };
   const handleCreateVisitorInfo = (event) => {
     event.preventDefault();
-    if ((name !== "" && visitorDateOfBirth !== "" && genderId !== -1)) {
+    if (name !== "" && visitorDateOfBirth !== "" && genderId !== -1) {
       const userInfoForm = {
         fullName: name,
         dateOfBirth: visitorDateOfBirth,
@@ -69,9 +75,8 @@ export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
       };
       // console.log(userInfoForm)
       createNewVisitor(userInfoForm).then(navigate("/"));
-    }
-    else {
-      window.alert(`Please, ensure that all required fields are filled out.`)
+    } else {
+      window.alert(`Please, ensure that all required fields are filled out.`);
     }
   };
   return (
@@ -114,12 +119,16 @@ export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
                   })}
                 </select>
                 <label>Practice(s):</label>{" "}
-                <input
-                  type="text"
-                  placeholder="The Name of the Practice(s)"
-                  value={practitionerPractice}
-                  onChange={handlePractitionerPractices}
-                />
+                {practices ? 
+                <select onChange={handlePracticeSelect}>
+                  <option value="-1">Select Your Practice</option>
+                  {practices.map((practice) => {
+                    return (
+                      <option key={practice.id} value={practice.id}>{practice.practice}</option>
+                    );
+                  })}
+                </select>
+                  : "Waiting for the practices to load" }
                 <label>Experience: </label>{" "}
                 <input
                   type="number"
