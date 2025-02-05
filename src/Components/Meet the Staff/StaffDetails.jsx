@@ -47,17 +47,17 @@ export const StaffDetails = ({ currentUser }) => {
               alt="Profile Picture"
             />
             <p>
-              My name is {profile.practitioner.fullName}, I am{" "}
-              {profile.practitioner.age} years young. I have been working in my
-              dedicated field(s),{" "}
-              {profile.practitioner.practice.map((practice) => {
-                return <>{practice}</>;
-              })}
-              {", "}
-              for {profile.practitioner.experience} years. Here is a little bit
-              about me, outside of work. {profile.bio}
-            </p>
-          </section>
+                My name is {profile.practitioner.fullName}, I am{" "}
+                {profile.practitioner.age} years young. I have been working in my
+                dedicated field(s),{" "}
+                {profile.practitioner.practice.map((practice) => {
+                  return <>{practice}</>;
+                })}
+                {", "}
+                for {profile.practitioner.experience} years. Here is a little bit
+                about me, outside of work. {profile.bio}
+              </p>
+            </section>
         </article>
       ) : (
         <article>

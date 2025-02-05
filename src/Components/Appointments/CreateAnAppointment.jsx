@@ -100,7 +100,11 @@ export const CreateAnAppointment = ({ currentUser }) => {
     <form>
       {visitor ? (
         <>
-          <h1 className="createAppointmentH1">Create An Appointment</h1>
+          {location.state?.type === "edit" ? (
+            <h1 className="createAppointmentH1">Edit An Appointment</h1>
+          ) : (
+            <h1 className="createAppointmentH1">Create An Appointment</h1>
+          )}
           <div className="form">
             <fieldset className="visitorInfo">
               <label>Your Name</label>
