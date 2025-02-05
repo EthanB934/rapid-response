@@ -1,16 +1,24 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { getAllPractitioners } from "../../Services/PractitionerServices";
+import {
+  getAllPractices,
+  getAllPractitioners,
+} from "../../Services/PractitionerServices";
 import { Link } from "react-router-dom";
 import "../Appointments/MyAppointments.css";
 export const MeetTheStaff = () => {
   const [practitioners, setPractitioners] = useState([]);
+  const [practices, setPractices] = useState([]);
 
   useEffect(() => {
     getAllPractitioners().then((practitionersArray) =>
       setPractitioners(practitionersArray)
     );
   }, []);
+
+  useEffect(() => {
+    getAllPractices().then((practicesArray) => setPractices(practicesArray));
+  }, [practitioners]);
 
   return (
     <div className="list">
@@ -24,10 +32,12 @@ export const MeetTheStaff = () => {
             >
               {practitioner.fullName}
             </Link>
-            {practitioner.practice.map((practice) => {
-              return <>Practices {practice}</>;
+            {practices.map((practice) => {
+              if (practice.id === practitioner.practiceId) {
+                return <>Practices {practice.practice}</>;
+              }
             })}{" "}
-             and has {practitioner.experience} years of experience
+            and has {practitioner.experience} years of experience
           </div>
         );
       })}

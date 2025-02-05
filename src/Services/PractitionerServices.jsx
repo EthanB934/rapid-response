@@ -3,7 +3,11 @@ export const getAllPractitioners = async () => {
     res.json()
   );
 };
-
+export const getAllPractices = async () => {
+  return await fetch("http://localhost:8088/practices").then((res) =>
+    res.json()
+  );
+};
 export const getProfileByPractitionerId = async (practitionerId) => {
   return await fetch(
     `http://localhost:8088/profiles?practitionerId=${practitionerId}&_expand=practitioner`
@@ -24,8 +28,8 @@ export const createNewPractitioner = async (userInfoForm) => {
   return await fetch("http://localhost:8088/practitioners", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(userInfoForm)
-  })
-}
+    body: JSON.stringify(userInfoForm),
+  });
+};
