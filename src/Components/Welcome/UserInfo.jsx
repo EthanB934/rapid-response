@@ -1,24 +1,29 @@
 import { useEffect, useState } from "react";
 import "../Appointments/AppointmentDetails.css";
-import { getAllGenders } from "../../Services/ProfileServices";
+import { createNewGender, getAllGenders } from "../../Services/ProfileServices";
 import {
   createNewPractitioner,
   getAllPractices,
 } from "../../Services/PractitionerServices";
 import { useNavigate } from "react-router-dom";
 import { createNewVisitor } from "../../Services/VisitorServices";
+import "./Welcome.css";
 export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
   const [name, setName] = useState("");
   const [practitionerAge, setPractitionerAge] = useState("");
   const [visitorDateOfBirth, setVisitorDateOfBirth] = useState("");
   const [genderId, setGenderId] = useState(-1);
+  const [genderEntry, setGenderEntry] = useState("");
   const [practitionerExperience, setPractitionerExperience] = useState(0);
   const [practices, setPractices] = useState(0);
   const [practitionerPractice, setPractitionerPractice] = useState(-1);
   const [genders, setGenders] = useState([]);
   const navigate = useNavigate();
-  useEffect(() => {
+  const handleGetAndSetAllGenders = () => {
     getAllGenders().then((gendersArray) => setGenders(gendersArray));
+  };
+  useEffect(() => {
+    handleGetAndSetAllGenders();
   }, []);
   useEffect(() => {
     getAllPractices().then((practicesArray) => setPractices(practicesArray));
@@ -35,6 +40,9 @@ export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
   const handleGenderId = (event) => {
     setGenderId(event.target.value);
   };
+  const handleGenderEntry = (event) => {
+    setGenderEntry(event.target.value);
+  };
   const handlePractitionerExperience = (event) => {
     setPractitionerExperience(event.target.value);
   };
@@ -44,11 +52,11 @@ export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
   const handleCreatePractitionerInfo = (event) => {
     event.preventDefault();
     if (
-      (name !== "" &&
+      name !== "" &&
       practitionerAge !== 0 &&
       genderId !== -1 &&
       practitionerPractice >= 0 &&
-      practitionerExperience !== 0)
+      practitionerExperience !== 0
     ) {
       const userInfoForm = {
         fullName: name,
@@ -79,6 +87,26 @@ export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
       window.alert(`Please, ensure that all required fields are filled out.`);
     }
   };
+  const handleCreateNewGender = (event) => {
+    event.preventDefault();
+    console.log("Current Gender Entry: ", genderEntry);
+    // Returns boolean array
+    const isGenderCreated = genders.find(
+      (gender) => gender.gender.toLowerCase() === genderEntry.toLowerCase()
+    );
+    console.log("Is Gender Created?: ", isGenderCreated )
+    if(isGenderCreated === undefined) {
+      const genderForm = {
+        gender: genderEntry
+      }
+      createNewGender(genderForm).then(handleGetAndSetAllGenders)
+     window.alert("Your preference has been created and added to selections.")
+    }
+    else {
+      window.alert("This preferences has already been added to our selections")
+    }
+  };
+
   return (
     <form>
       {currentUser.isStaff ? (
@@ -119,16 +147,20 @@ export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
                   })}
                 </select>
                 <label>Practice(s):</label>{" "}
-                {practices ? 
-                <select onChange={handlePracticeSelect}>
-                  <option value="-1">Select Your Practice</option>
-                  {practices.map((practice) => {
-                    return (
-                      <option key={practice.id} value={practice.id}>{practice.practice}</option>
-                    );
-                  })}
-                </select>
-                  : "Waiting for the practices to load" }
+                {practices ? (
+                  <select onChange={handlePracticeSelect}>
+                    <option value="-1">Select Your Practice</option>
+                    {practices.map((practice) => {
+                      return (
+                        <option key={practice.id} value={practice.id}>
+                          {practice.practice}
+                        </option>
+                      );
+                    })}
+                  </select>
+                ) : (
+                  "Waiting for the practices to load"
+                )}
                 <label>Experience: </label>{" "}
                 <input
                   type="number"
@@ -187,6 +219,26 @@ export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
                     );
                   })}
                 </select>
+                <fieldset>
+                  {parseInt(genderId) === 10 ? (
+                    <>
+                      <label>Would you like to specify? </label>
+                      <input
+                        type="text"
+                        placeholder="Your preferred gender"
+                        onChange={handleGenderEntry}
+                      ></input>
+                      <button
+                        className="submission"
+                        onClick={handleCreateNewGender}
+                      >
+                        Submit Preference
+                      </button>
+                    </>
+                  ) : (
+                    " "
+                  )}
+                </fieldset>
               </fieldset>
               <div className="formButtons">
                 <button onClick={handleCreateVisitorInfo}>Save Data</button>

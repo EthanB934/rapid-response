@@ -24,7 +24,9 @@ export const VisitorNavigationBar = () => {
             navigate("/", { replace: true });
           }}
         >
+          {/* <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"> */}
           Logout
+          {/* </a> */}
         </Link>
       </li>
     </ul>
