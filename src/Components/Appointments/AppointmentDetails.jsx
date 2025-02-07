@@ -5,15 +5,24 @@ import {
   removeAppointment,
 } from "../../Services/AppointmentServices";
 import { getVisitorByUserId } from "../../Services/UserServices";
-import { getAllPractices, getPractitionerByUserId } from "../../Services/PractitionerServices";
+import { getPractitionerByUserId } from "../../Services/PractitionerServices";
+import { RenderAppointmentDetails } from "./RenderAppointmentDetails";
+import { RenderAppointmentDetailsButtons } from "./RenderAppointmentDetailsButtons";
 import "../Meet the Staff/MeetTheStaff.css";
+
 export const AppointmentDetails = ({ currentUser }) => {
   const [appointment, setAppointment] = useState({});
-  const [allPractices, setAllPractices] = useState([]);
-  const [visitor, setVisitor] = useState({});
+
+  // This component requires the useParams() hook because it is displaying an individual list item. The link for which is generated through the .map()
+  // array method. The id of that appointment object is captured during iteration. It is also routed for these specific items.
   const { appointmentId } = useParams();
+
+  // Navigation will be used when the visitor user wishes to update or cancel their appointment.
   const navigate = useNavigate();
 
+  // This useEffect observes the appointmentId state.
+  // Once it is received, it iterates through all appointments in order to find the matching appointment
+  // When the match is found, that appointment object is then stored in state.
   useEffect(() => {
     getAppointmentsByAppointmentId(appointmentId).then((appointmentArray) => {
       const thisAppointment = appointmentArray[0];
@@ -21,32 +30,22 @@ export const AppointmentDetails = ({ currentUser }) => {
     });
   }, [appointmentId]);
 
-  useEffect(() => {
-    getAllPractices().then((practicesArray) => setAllPractices(practicesArray))
-  }, [appointment])
-  useEffect(() => {
-    if (!currentUser.isStaff) {
-      getVisitorByUserId(currentUser.id).then((responseArray) => {
-        const visitorObject = responseArray[0];
-        setVisitor(visitorObject);
-      });
-    }
-    if (currentUser.isStaff) {
-      getPractitionerByUserId(currentUser.id).then((responseArray) => {
-        const visitorObject = responseArray[0];
-        setVisitor(visitorObject);
-      });
-    }
-  }, [currentUser]);
-
+  // Function to make a fetch call to delete object. Relies on appointmentId given by useParams
+  // Will not delete any other appointment object except the one being viewed.
   const handleRemoveAppointment = (event) => {
     event.preventDefault();
     const appointmentIdAsInteger = parseInt(appointmentId);
     removeAppointment(appointmentIdAsInteger).then(navigate("/appointments"));
+    // After deletion, user is navigated back to the list of appointments. No need to stare at a blank screen. 
+    // Function definition passed to RenderAppointmentDetailsButtons for modularization, still effective. 
   };
 
+  // Function meant simply to navigate user with the associated data with the current appointment being viewed. 
   const handleUpdateAppointment = (event) => {
     event.preventDefault();
+    // User is navigated to this path
+    // Edit component is relying on this additional state being passed as a second argument to the navigate function. 
+    // Will require useLocation() hook
     navigate(`/appointments/${appointmentId}/edit`, {
       state: { type: "edit", appointment: appointment },
     });
@@ -54,89 +53,20 @@ export const AppointmentDetails = ({ currentUser }) => {
 
   return (
     <article>
-      {appointment.practitioner ? (
-        <>
-          <h1>Appointment Details for Appointment #{appointment.id}</h1>
-          <section className="appointmentDetails">
-            <p className="details">
-              Your have scheduled this appointment for the following reason:{" "}
-              {appointment.reason}. You will be meeting with our trusted
-              clinical expert {appointment.practitioner.fullName}. Doctor{" "}
-              {appointment.practitioner.fullName} practices{" "}
-              {allPractices.map((practice) => {
-                if(practice.id === parseInt(appointment.practitioner.practiceId))
-                return <>{practice.practice}</>;
-              })}
-              . He has {appointment.practitioner.experience} years of experience
-              as a doctor.
-            </p>
-            {!currentUser.isStaff && appointment.completed === true ? (
-              <div className="detailsButtons">
-                <label>
-                  This appointment was marked as completed on{" "}
-                  {appointment.scheduledDate}{" "}
-                </label>
-                <span>
-                  This appointment has been completed. We hope the visit went
-                  well!
-                </span>
-                <button
-                  className="detailsButtons"
-                  onClick={handleRemoveAppointment}
-                >
-                  Remove
-                </button>
-              </div>
-            ) : (
-              " "
-            )}
-            {!currentUser.isStaff && appointment.completed === false ? (
-              <>
-                <label>
-                  This appointment is scheduled for {appointment.scheduledDate}
-                </label>
-                <span>
-                  This appointment is still pending. We hope to see you soon!
-                </span>
-                <div className="detailsButtons">
-                  <button onClick={handleRemoveAppointment}>Cancel</button>
-                  <button onClick={handleUpdateAppointment}>Update</button>
-                </div>
-              </>
-            ) : (
-              " "
-            )}
-            {currentUser.isStaff && appointment.completed === true ? (
-              <>
-                <label>
-                  This appointment was marked as completed on{" "}
-                  {appointment.scheduledDate}{" "}
-                </label>
-                <span>
-                  This appointment has been completed. We hope the visit went
-                  well!
-                </span>
-              </>
-            ) : (
-              " "
-            )}
-            {currentUser.isStaff && appointment.completed === false ? (
-              <>
-                <label>
-                  This appointment is scheduled for {appointment.scheduledDate}
-                </label>{" "}
-                <span>
-                  This appointment is still pending. We hope to see you soon!
-                </span>
-              </>
-            ) : (
-              " "
-            )}
-          </section>
-        </>
-      ) : (
-        "Waiting for practitioner"
-      )}
+      <section className="appointmentDetails">
+        <RenderAppointmentDetails
+          appointment={appointment}
+          currentUser={currentUser}
+        />
+      </section>
+      <section>
+        <RenderAppointmentDetailsButtons
+          appointment={appointment}
+          currentUser={currentUser}
+          remover={handleRemoveAppointment}
+          updater={handleUpdateAppointment}
+        />
+      </section>
     </article>
   );
 };
