@@ -9,15 +9,27 @@ import { Welcome } from "../Components/Welcome/Welcome";
 import { UserInfoForm } from "../Components/Welcome/UserInfo";
 import { useEffect, useState } from "react";
 import { getVisitorByUserId } from "../Services/UserServices";
+import { getAllGenders } from "../Services/ProfileServices";
 
 export const VisitorViews = ({ currentUser }) => {
   const [visitor, setVisitor] = useState({});
+  const [genders, setGenders] = useState([]);
+
   useEffect(() => {
     getVisitorByUserId(currentUser.id).then((responseArray) => {
       const visitorObject = responseArray[0];
       setVisitor(visitorObject);
     });
   }, [currentUser]);
+
+  // Function defined here. Necessary for invocation in gender creation function.
+  const handleGetAndSetAllGenders = () => {
+    getAllGenders().then((gendersArray) => setGenders(gendersArray));
+  };
+  // UseEffect to return array of all created gender options. Will be updated when gender creation function executes.
+  useEffect(() => {
+    handleGetAndSetAllGenders();
+  }, []);
 
   return (
     <Routes>
@@ -36,13 +48,13 @@ export const VisitorViews = ({ currentUser }) => {
           element={
             <>
               <Welcome />
-              <UserInfoForm visitor={visitor} currentUser={currentUser} />
+              <UserInfoForm genders={genders} visitor={visitor} currentUser={currentUser} />
             </>
           }
         />
         <Route
           path="create"
-          element={<CreateAnAppointment currentUser={currentUser} />}
+          element={<CreateAnAppointment genders={genders} visitor={visitor} currentUser={currentUser} />}
         />
         <Route path="appointments">
           <Route index element={<MyAppointments currentUser={currentUser} />} />

@@ -12,14 +12,26 @@ import {
 } from "../Services/PractitionerServices";
 import { Welcome } from "../Components/Welcome/Welcome";
 import { UserInfoForm } from "../Components/Welcome/UserInfo";
+import { getAllGenders } from "../Services/ProfileServices";
 
 export const StaffMemberViews = ({ currentUser }) => {
   const [profile, setProfile] = useState({});
   const [practitioner, setPractitioner] = useState({});
+  const [genders, setGenders] = useState([]);
+
+  // Function defined here. Necessary for invocation in gender creation function.
+  const handleGetAndSetAllGenders = () => {
+    getAllGenders().then((gendersArray) => setGenders(gendersArray));
+  };
+
+  // UseEffect to return array of all created gender options. Will be updated when gender creation function executes.
+  useEffect(() => {
+    handleGetAndSetAllGenders();
+  }, []);
 
   // This useEffect finds the practitioner that has logged in by a fetch call.
   // When currentUser.id === practitioner.userId
-  // Then that response is converted to an object an stored in state. 
+  // Then that response is converted to an object an stored in state.
   // This useEffect is dependant on a user logging in/
   useEffect(() => {
     getPractitionerByUserId(currentUser.id).then((responseArray) => {
@@ -35,9 +47,9 @@ export const StaffMemberViews = ({ currentUser }) => {
   // On the basis that a practitioner has a profile, or not, then the routing will be slightly different.
   useEffect(() => {
     getProfileByPractitionerId(practitioner?.id).then((responseArray) => {
-      // It is possible that a practitioner may not have a profile associated with their practitioner data. 
+      // It is possible that a practitioner may not have a profile associated with their practitioner data.
       // Depending on this result will, the routing to My Profile will change
-      // The routes associated with My Profile lead either to a creation form, or the created profile. 
+      // The routes associated with My Profile lead either to a creation form, or the created profile.
       const profileObject = responseArray[0];
       setProfile(profileObject);
     });
@@ -61,6 +73,7 @@ export const StaffMemberViews = ({ currentUser }) => {
             <>
               <Welcome />
               <UserInfoForm
+                genders={genders}
                 practitioner={practitioner}
                 currentUser={currentUser}
               />

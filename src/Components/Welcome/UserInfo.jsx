@@ -1,29 +1,19 @@
-import { useEffect, useState } from "react";
-import { createNewGender, getAllGenders } from "../../Services/ProfileServices";
+import { useState } from "react";
+import { createNewGender} from "../../Services/ProfileServices";
 import { PractitionerUserForm } from "./PractitionerUserForm";
+import { VisitorUserForm } from "./VisitorUserForm";
 import "./Welcome.css";
 import "../Appointments/AppointmentDetails.css";
-import { VisitorUserForm } from "./VisitorUserForm";
 
-export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
+export const UserInfoForm = ({ currentUser, genders, practitioner, visitor }) => {
   const [name, setName] = useState("");
   const [genderEntry, setGenderEntry] = useState("");
-  const [genders, setGenders] = useState([]);
+
   const [genderId, setGenderId] = useState(-1);
   // Function defined in parent, invoked in children components. Sets state variable, name
   const handleName = (event) => {
     setName(event.target.value);
   };
-
-  // Function defined here. Necessary for invocation in gender creation function.
-  const handleGetAndSetAllGenders = () => {
-    getAllGenders().then((gendersArray) => setGenders(gendersArray));
-  };
-
-  // UseEffect to return array of all created gender options. Will be updated when gender creation function executes.
-  useEffect(() => {
-    handleGetAndSetAllGenders();
-  }, []);
 
   // Function defined in parent, invoked in children components. Sets state variable, genderEntry (text input for specification)
   const handleGenderEntry = (event) => {
@@ -31,7 +21,6 @@ export const UserInfoForm = ({ currentUser, practitioner, visitor }) => {
   };
 
   // Function defined in parent, invoked in children components. Sets state variable, genderId (id of gender drop down selections)
-
   const handleGenderId = (event) => {
     setGenderId(event.target.value);
   };
