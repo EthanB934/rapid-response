@@ -16,18 +16,32 @@ import { UserInfoForm } from "../Components/Welcome/UserInfo";
 export const StaffMemberViews = ({ currentUser }) => {
   const [profile, setProfile] = useState({});
   const [practitioner, setPractitioner] = useState({});
+
+  // This useEffect finds the practitioner that has logged in by a fetch call.
+  // When currentUser.id === practitioner.userId
+  // Then that response is converted to an object an stored in state. 
+  // This useEffect is dependant on a user logging in/
   useEffect(() => {
     getPractitionerByUserId(currentUser.id).then((responseArray) => {
+      // It is possible that a user may not have either a practitioner resource stored.
+      // This result can lead to the user being navigated to a form that will generated that resource.
       const practitionerObject = responseArray[0];
       setPractitioner(practitionerObject);
-      getProfileByPractitionerId(practitionerObject?.id).then(
-        (responseArray) => {
-          const profileObject = responseArray[0];
-          setProfile(profileObject);
-        }
-      );
-    }); 
+    });
   }, [currentUser]);
+
+  // This useEffect is dependant on the practitioner state. Once that state changes (i.e. a practitioner object has been found and stored)
+  // Then this useEffect runs to see if that found practitioner has an associated profile or not
+  // On the basis that a practitioner has a profile, or not, then the routing will be slightly different.
+  useEffect(() => {
+    getProfileByPractitionerId(practitioner?.id).then((responseArray) => {
+      // It is possible that a practitioner may not have a profile associated with their practitioner data. 
+      // Depending on this result will, the routing to My Profile will change
+      // The routes associated with My Profile lead either to a creation form, or the created profile. 
+      const profileObject = responseArray[0];
+      setProfile(profileObject);
+    });
+  }, [practitioner]);
 
   return (
     <Routes>
@@ -46,7 +60,10 @@ export const StaffMemberViews = ({ currentUser }) => {
           element={
             <>
               <Welcome />
-              <UserInfoForm practitioner={practitioner}  currentUser={currentUser} />
+              <UserInfoForm
+                practitioner={practitioner}
+                currentUser={currentUser}
+              />
             </>
           }
         />
