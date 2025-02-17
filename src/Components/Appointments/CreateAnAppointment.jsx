@@ -80,7 +80,7 @@ export const CreateAnAppointment = ({ visitor, genders }) => {
         scheduledDate: scheduleDate,
         visitorId: visitor.id,
         practitionerId: chosenPractitioner,
-        completed: appointmentCompleted,
+        completed: false,
       };
       // Creates a new appointment resource in the database. Navigates visitor user back to the appointments list.
       scheduleAppointment(appointmentForm).then(navigate("/appointments"));
@@ -98,7 +98,7 @@ export const CreateAnAppointment = ({ visitor, genders }) => {
       scheduledDate: scheduleDate,
       visitorId: visitor.id,
       practitionerId: chosenPractitioner,
-      completed: appointmentCompleted,
+      completed: false,
     };
     // Makes a "PUT" request to update resource in the database. Includes all relevant data that may be modified, and data that may not be.
     // After request is made, visitor user is navigated back to their appointment list.

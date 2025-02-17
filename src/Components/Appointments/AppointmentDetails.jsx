@@ -4,13 +4,11 @@ import {
   getAppointmentsByAppointmentId,
   removeAppointment,
 } from "../../Services/AppointmentServices";
-import { getVisitorByUserId } from "../../Services/UserServices";
-import { getPractitionerByUserId } from "../../Services/PractitionerServices";
 import { RenderAppointmentDetails } from "./RenderAppointmentDetails";
 import { RenderAppointmentDetailsButtons } from "./RenderAppointmentDetailsButtons";
 import "../Meet the Staff/MeetTheStaff.css";
 
-export const AppointmentDetails = ({ currentUser }) => {
+export const AppointmentDetails = ({ currentUser, visitor }) => {
   const [appointment, setAppointment] = useState({});
 
   // This component requires the useParams() hook because it is displaying an individual list item. The link for which is generated through the .map()
@@ -47,7 +45,7 @@ export const AppointmentDetails = ({ currentUser }) => {
     // Edit component is relying on this additional state being passed as a second argument to the navigate function. 
     // Will require useLocation() hook
     navigate(`/appointments/${appointmentId}/edit`, {
-      state: { type: "edit", appointment: appointment },
+      state: { type: "edit", appointment: appointment},
     });
   };
 
