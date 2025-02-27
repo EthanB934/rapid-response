@@ -25,7 +25,6 @@ This is component is a feature that introduces the staff on the roster of the cl
 ### **Welcome**
 
 Once the user is logged in, they are met with a simple welcome page. From here, a navigation bar makes much of the web application's functionality accessible to them.
-### User Experience as a Practitioner
 
 ### **My Appointments**
 
