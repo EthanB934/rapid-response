@@ -7,7 +7,7 @@ There are two expected users that may interact with this web application, client
 ### User Experience as a Client
 
 ### **Welcome**
-Once the client is logged in, they are met with a simple welcome page. From here, a navigation bar makes much of the web application's functionality accessible to them.
+Once the user is logged in, they are met with a simple welcome page. From here, a navigation bar makes much of the web application's functionality accessible to them.
 
 ### **Creating An Appointment**
 A new view of the web application, the core upon which the project was planned. This component allows the client to create their appointment. Here, there are fields that rely on information that the client-user entered in their one-time, user data entry form. These fields include their name, date of birth, and gender. Aside from these fields, the client has a drop-down box from which they may select their preferred practitioner, a text area where they can describe the reason for their appointment, and a date-entry field for setting the appointment's date and time.
@@ -19,3 +19,18 @@ Once a client-user has created an appointment, and it has been submitted, they a
 ### **Meet the Staff**
 
 This is component is a feature that introduces the staff on the roster of the clinic. Here the client-user may view that roster. Each practitioner has an associated link with their name, when clicked the user is directed to that practitioner's details. The details include the practitioner's name, age, gender, practice, and experience in years. The client-user may also schedule with a practitioner from this details view.
+
+### User Experience as a Practitioner
+
+### **Welcome**
+
+Once the user is logged in, they are met with a simple welcome page. From here, a navigation bar makes much of the web application's functionality accessible to them.
+### User Experience as a Practitioner
+
+### **My Appointments**
+
+Once a practitioner-user has been scheduled in an appointment, their appointments list updates with the new appointments. Here, they may view pending appointments and completed appointments. Each appointment has an associated link which allows the practitioner-user to view each appointment's details. The practitioner has the functionality to change an appointment's status from pending to complete.
+
+### **Meet the Staff**
+
+This is component is a feature that introduces the staff on the roster of the clinic. Here the practitioner-user may view that roster. Each practitioner has an associated link with their name, when clicked the user is directed to that practitioner's details. The details include the practitioner's name, age, gender, practice, and experience in years. The practitioner may not schedule an appointment with a colleague, nor can they edit the details of a colleague's profile, but they may edit their own profile.
