@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useResolvedPath } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { getUserByEmail } from "../../Services/UserServices";
-import { getUserRoleByUserId } from "../../Services/UserServices";
 
 export const Login = () => {
   const [email, set] = useState("");
   const [user, setUser] = useState({});
-  const [determinedRoleUser, setDeterminedRoleUser] = useState({});
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (user) {
-      getUserRoleByUserId(user.id).then((responseArray) => {
-        setDeterminedRoleUser(responseArray);
-      });
-    }
-  }, [user]);
-
+  // First process to execute when user logs into Rapid Response
   const handleLogin = (e) => {
+    // Prevents rerendering HTML
     e.preventDefault();
+
+    // Gets user by their email. Because they do not enter their unique id
     getUserByEmail(email).then((foundUsers) => {
+      // Because we queried the database, we will receive an array of objects (users).
       if (foundUsers.length === 1) {
+        // Emails are unique, so, there will be only one result in the array of objects.
         const user = foundUsers[0];
+
+        // Sets user state
         setUser(user);
+
+        // Sets the user's authentication token in the local storage. Values are extracted from user data
         localStorage.setItem(
           "rapidResponse_user",
           JSON.stringify({
@@ -34,21 +34,20 @@ export const Login = () => {
         );
       }
     });
-    if (
-      determinedRoleUser.visitors?.length === 1 ||
-      determinedRoleUser.practitioners?.length === 1
-    ) {
-      navigate("/");
-    } else if (
-      determinedRoleUser.visitors?.length === 0 ||
-      !determinedRoleUser.practitioners?.length === 0
-    ) {
-      navigate("/userinfo");
-    } 
-    // else {
-    //   window.alert("Invalid login");
-    // }
   };
+
+  useEffect(() => {
+    // Keeps from invoking user until the first condition is met
+    if ("id" in user) {
+      // Sends the found user with their profile to the welcome component
+      if (user?.practitioners.length === 1 || user?.visitors.length === 1) {
+        navigate("/");
+      } else {
+        // If the user does not have either a practitioner or visitor profile, they are redirected to a form to create one first
+        navigate("/userinfo");
+      }
+    }
+  }, [user]);
 
   return (
     <main className="container-login">
