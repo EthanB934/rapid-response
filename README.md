@@ -56,3 +56,10 @@ In this list view of appointments, a practitioner may confirm that an appointmen
 
 This is component is a feature that introduces the staff on the roster of the clinic. Here the practitioner-user may view that roster. Each practitioner has an associated link with their name, when clicked the user is directed to that practitioner's details. The details include the practitioner's name, age, gender, practice, and experience in years. The practitioner may not schedule an appointment with a colleague, nor can they edit the details of a colleague's profile, but they may edit their own profile.
 
+
+### **Run it locally**
+
+Rapid Response is a basic React app. To pull the project down locally to your computer clone the repository:
+```bash
+git clone git@github.com:EthanB934/rapid-response.git
+```
