@@ -87,5 +87,11 @@ The website will now be locally hosted on your computer and an address will give
 Finally, to interact with the website so that data is saved as you interact with the website, clone the API:
 
 ```bash
-git clone 
+git clone git@github.com:EthanB934/Rapid-Response-Api.git
+```
+
+The database is hosted by JSON server. Once you have cloned the API, serve the database with the following command:
+
+```bash
+json-server database.json -p 8088
 ```
