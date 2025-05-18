@@ -40,10 +40,19 @@ From here, a client may also schedule an appointment with the practitioner who t
 
 Once the user is logged in, they are met with a simple welcome page. From here, a navigation bar makes much of the web application's functionality accessible to them.
 
+![image](https://github.com/user-attachments/assets/ec0d2c8d-cc05-4b09-9348-82d730a5daf6)
+
+Notice the difference in the navigation bars between a practitioner and a client user.
+
 ### **My Appointments**
 
 Once a practitioner-user has been scheduled in an appointment, their appointments list updates with the new appointments. Here, they may view pending appointments and completed appointments. Each appointment has an associated link which allows the practitioner-user to view each appointment's details. The practitioner has the functionality to change an appointment's status from pending to complete.
 
+![image](https://github.com/user-attachments/assets/9a9ca0c6-14bc-47b2-a293-03f8731f6dcd)
+
+In this list view of appointments, a practitioner may confirm that an appointment has been completed. The status of the appointment will be updated for the practitioner's client.
+
 ### **Meet the Staff**
 
 This is component is a feature that introduces the staff on the roster of the clinic. Here the practitioner-user may view that roster. Each practitioner has an associated link with their name, when clicked the user is directed to that practitioner's details. The details include the practitioner's name, age, gender, practice, and experience in years. The practitioner may not schedule an appointment with a colleague, nor can they edit the details of a colleague's profile, but they may edit their own profile.
+
