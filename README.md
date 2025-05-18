@@ -63,3 +63,29 @@ Rapid Response is a basic React app. To pull the project down locally to your co
 ```bash
 git clone git@github.com:EthanB934/rapid-response.git
 ```
+
+After cloning the repository, a new directory will be creating, `rapid-reponse`:
+
+```bash
+cd rapid-response/
+```
+
+When you have changed directories, install the React app's dependencies with this command:
+
+```bash
+npm install
+```
+
+After the installation completes, you are ready to host the website. Run the command:
+
+```bash
+npm run dev
+```
+
+The website will now be locally hosted on your computer and an address will given to you to view the website. 
+
+Finally, to interact with the website so that data is saved as you interact with the website, clone the API:
+
+```bash
+git clone 
+```
