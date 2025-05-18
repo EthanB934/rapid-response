@@ -1,27 +1,22 @@
 import { Link } from "react-router-dom";
 import "../NavigationBars.css";
-export const StaffMemberNavigationBar = ({ profile }) => {
+
+export const VisitorNavigationBar = () => {
   return (
     <ul className="nav">
       <li>
         <Link to="/">Home</Link>
       </li>
-      {profile?.practitioner ? (
-        <li>
-          <Link to={`/meetthestaff/${profile.practitionerId}`}>My Profile</Link>
-        </li>
-      ) : (
-        <li>
-          <Link to="profile">My Profile</Link>
-        </li>
-      )}
+      <li>
+        <Link to="create">Create an Appointment</Link>
+      </li>
       <li>
         <Link to="appointments">My Appointments</Link>
       </li>
       <li>
         <Link to="meetthestaff">Meet the Staff</Link>
       </li>
-      <li className="logout"> 
+      <li>
         <Link
           to=""
           onClick={() => {
@@ -29,7 +24,9 @@ export const StaffMemberNavigationBar = ({ profile }) => {
             navigate("/", { replace: true });
           }}
         >
+          {/* <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"> */}
           Logout
+          {/* </a> */}
         </Link>
       </li>
     </ul>

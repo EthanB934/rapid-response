@@ -1,0 +1,46 @@
+
+div.form {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 50%;
+}
+    
+h1.createAppointmentH1 {
+    margin-bottom: 2rem ;
+    border-bottom: none;
+    }
+    
+fieldset.visitorInfo {
+    display: flex;
+    flex-direction: column;
+    background-color: lightblue;
+}
+fieldset.bio {
+    display: flex;
+    flex-direction: column;
+    background-color: lightblue;
+}
+
+fieldset.appointmentInfo {
+    display: flex;
+    flex-direction: column;
+    background-color: lightblue;
+}
+        
+fieldset.practitionerInfo {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    background-color: lightblue;
+}
+
+select, input, textarea {
+    background-color: papayawhip;
+} 
+
+div.formButtons {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}

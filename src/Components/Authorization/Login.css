@@ -1,0 +1,33 @@
+section.login {
+    display: flex;
+    height: 100vh;
+    align-items: center;
+}
+
+form.form-login {
+    margin: 0 auto;
+    display: column;
+    place-items: center;
+    width: 30%;
+    background-color: white;
+    border: 1px solid black;
+    box-shadow: 0px 1px 1px 1px;
+
+}
+
+h1.loginH1 {
+    margin: 0;
+    border-bottom: 5px solid black;
+}
+
+
+/* 
+
+h2 {
+    border-bottom: 4px solid black;
+} */
+
+input.form-control {
+    border: 4px double maroon;
+}
+
